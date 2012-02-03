@@ -1,11 +1,11 @@
 #ifndef READYQUEUE_H
 #define READYQUEUE_H
 
-struct PCB_t {
-    int _id;
-    int _state;
-    int _priority;
-};
+#include <iostream>
+
+using namespace std;
+
+#include "PCB.h"
 
 class ReadyQueue
 {
@@ -14,7 +14,7 @@ class ReadyQueue
         ~ReadyQueue();
 
         void insertProc();
-        PCB_t removeHighestProc();
+        PCB removeHighestProc();
         int getSize();
         void displayQueue();
 
