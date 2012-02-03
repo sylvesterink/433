@@ -2,9 +2,9 @@ CC = g++
 CFLAGS = -c -g -Wall -pedantic
 LIB = -lm
 LDFLAGS = -L.
-SOURCES = main.cpp
+SOURCES = main.cpp PCB.cpp ReadyQueue.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
-EXECUTABLE = ProjectOne
+EXECUTABLE = ProjectOne.exe
 
 all: $(SOURCES) $(EXECUTABLE)
 

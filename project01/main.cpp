@@ -13,9 +13,11 @@ void partTwo();
 
 int main(int argc, const char *argv[])
 {
-    //PCB[TABLE_SIZE] PCB_table;
-    ReadyQueue test2;
-    PCB test;
+    PCB PCB_table[TABLE_SIZE];
+
+    cout << PCB_table[0].getId() << endl;
+    cout << PCB_table[0].getPriority() << endl;
+    cout << PCB_table[0].getState() << endl;
 
     return 0;
 }

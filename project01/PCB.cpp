@@ -2,9 +2,9 @@
 
 PCB::PCB()
 {
-    int _id = 0;
-    int _state = NEW;
-    int _priority = 0;
+    _id = 0;
+    _state = NEW;
+    _priority = 0;
 }
 
 PCB::~PCB()
