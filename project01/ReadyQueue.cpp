@@ -1,7 +1,7 @@
 #include "ReadyQueue.h"
 
-ReadyQueue::ReadyQueue() :
-    _dataSize(0)
+ReadyQueue::ReadyQueue():
+    _dataSize(0),
     _insertPosition(0)
 {
     _queueData = new PCB*[20];
@@ -14,7 +14,9 @@ ReadyQueue::ReadyQueue() :
 
 ReadyQueue::~ReadyQueue()
 {
-
+    if (_queueData != NULL) {
+        delete[] *_queueData;
+    }
 }
 
 bool ReadyQueue::isEmpty()
