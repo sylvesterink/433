@@ -10,8 +10,8 @@ using namespace std;
 static const int TABLE_SIZE = 20;
 
 void initialize(PCB*);
-void partOne();
-void partTwo();
+void partOne(PCB*);
+void partTwo(PCB*);
 
 int main(int argc, const char *argv[])
 {
@@ -20,18 +20,18 @@ int main(int argc, const char *argv[])
     cout << "Priority Queue" << endl;
     cout << "Cavan Crawford and Brandon Kasa" << endl;
 
-    cout << "Test 1:" << endl;
-    PCB_table = new PCB[TABLE_SIZE];
-    initialize(PCB_table);
-    srand(time(0)); //initialize random number generator
-    partOne();
-    delete[] PCB_table;
+    //cout << "Test 1:" << endl;
+    //PCB_table = new PCB[TABLE_SIZE];
+    //initialize(PCB_table);
+    //srand(time(0)); //initialize random number generator
+    //partOne(PCB_table);
+    //delete[] PCB_table;
 
     cout << "\n\nTest 2:" << endl;
     PCB_table = new PCB[TABLE_SIZE];
     initialize(PCB_table);
     srand(time(0)); //initialize random number generator
-    partTwo();
+    partTwo(PCB_table);
     delete[] PCB_table;
 
     return 0;
@@ -46,7 +46,7 @@ void initialize(PCB* table)
     }
 }
 
-void partOne()
+void partOne(PCB* table)
 {
     ReadyQueue q1;
     q1.insertProc(&table[4]);
@@ -70,8 +70,12 @@ void partOne()
     }
 }
 
-void partTwo()
+void partTwo(PCB* table)
 {
+    ReadyQueue q1;
+
+    q1.insertProc(&table[3]);
+    q1.displayQueue();
     //ReadyQueue q1;
     //int r;
     //for(int i = 0; i < 10; i++) {

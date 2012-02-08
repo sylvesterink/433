@@ -1,9 +1,16 @@
 #include "ReadyQueue.h"
 
-ReadyQueue::ReadyQueue()
+ReadyQueue::ReadyQueue() :
+    _dataSize(0)
+    _insertPosition(0)
 {
-
+    _queueData = new PCB*[20];
 }
+
+//ReadyQueue::ReadyQueue(int size)
+//{
+    //_queueData = new PCB*[20];
+//}
 
 ReadyQueue::~ReadyQueue()
 {
@@ -12,14 +19,12 @@ ReadyQueue::~ReadyQueue()
 
 bool ReadyQueue::isEmpty()
 {
-
-
-
+    return false;
 }
 
-void ReadyQueue::insertProc()
+void ReadyQueue::insertProc(PCB* newElement)
 {
-
+    _queueData[0] = newElement;
 }
 
 PCB ReadyQueue::removeHighestProc()
@@ -37,5 +42,5 @@ int ReadyQueue::getSize()
 
 void ReadyQueue::displayQueue()
 {
-
+    //cout << _queueData[0]->getId() << endl;
 }

@@ -11,15 +11,19 @@ class ReadyQueue
 {
     public:
         ReadyQueue();
+        //ReadyQueue(int);
         ~ReadyQueue();
 
-        void insertProc();
+        void insertProc(PCB*);
         PCB removeHighestProc();
         int getSize();
         void displayQueue();
-	bool isEmpty();
+        bool isEmpty();
 
     private:
+        PCB** _queueData;
+        int _dataSize;
+        int _insertPosition;
 };
 
 
