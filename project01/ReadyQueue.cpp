@@ -21,6 +21,10 @@ ReadyQueue::~ReadyQueue()
 
 bool ReadyQueue::isEmpty()
 {
+    if (_dataSize == 0) {
+        return true;
+    }
+
     return false;
 }
 
