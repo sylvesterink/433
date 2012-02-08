@@ -24,6 +24,11 @@ void PCB::setState(int state)
 
 void PCB::setPriority(int priority)
 {
+  if(priority > 50)
+    _priority = 50;
+  else if(priority < 1)
+    _priority = 1;
+  else
     _priority = priority;
 }
 

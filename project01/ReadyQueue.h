@@ -17,6 +17,7 @@ class ReadyQueue
         PCB removeHighestProc();
         int getSize();
         void displayQueue();
+	bool isEmpty();
 
     private:
 };

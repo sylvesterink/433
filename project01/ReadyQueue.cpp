@@ -10,6 +10,13 @@ ReadyQueue::~ReadyQueue()
 
 }
 
+bool ReadyQueue::isEmpty()
+{
+
+
+
+}
+
 void ReadyQueue::insertProc()
 {
 
