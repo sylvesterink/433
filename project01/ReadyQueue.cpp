@@ -1,8 +1,7 @@
 #include "ReadyQueue.h"
 
 ReadyQueue::ReadyQueue():
-    _dataSize(0),
-    _insertPosition(0)
+    _dataSize(0)
 {
     _queueData = new PCB*[20];
 }
@@ -30,7 +29,25 @@ bool ReadyQueue::isEmpty()
 
 void ReadyQueue::insertProc(PCB* newElement)
 {
-    _queueData[0] = newElement;
+    int insertPos = _dataSize;
+    int elPriority = newElement->getPriority();
+
+    _queueData[_dataSize] = newElement;
+    _dataSize++;
+
+    int parent = (insertPos/2) - 1;
+    while ( (insertPos != 0) && (elPriority < _queueData[parent]->getPriority()) ) {
+        _queueData[insertPos] = _queueData[parent];
+        _queueData[parent] = newElement;
+
+        insertPos = parent;
+        parent = (insertPos/2) - 1;
+
+        if (parent < 0) {
+            parent = 0;
+        }
+    }
+
 }
 
 PCB ReadyQueue::removeHighestProc()
@@ -48,5 +65,9 @@ int ReadyQueue::getSize()
 
 void ReadyQueue::displayQueue()
 {
-    //cout << _queueData[0]->getId() << endl;
+    for (int i = 0; i < _dataSize; i++) {
+        cout << _queueData[i]->getId() << " ";
+    }
+
+    cout << endl;
 }

@@ -23,7 +23,6 @@ class ReadyQueue
     private:
         PCB** _queueData;
         int _dataSize;
-        int _insertPosition;
 };
 
 
