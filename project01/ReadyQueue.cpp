@@ -14,7 +14,7 @@ ReadyQueue::ReadyQueue():
 ReadyQueue::~ReadyQueue()
 {
     if (_queueData != NULL) {
-        delete[] *_queueData;
+        delete[] _queueData;
     }
 }
 
@@ -35,7 +35,7 @@ void ReadyQueue::insertProc(PCB* newElement)
     _queueData[_dataSize] = newElement;
     _dataSize++;
 
-    int parent = (insertPos/2) - 1;
+    int parent = (_dataSize/2) - 1;
     while ( (insertPos != 0) && (elPriority < _queueData[parent]->getPriority()) ) {
         _queueData[insertPos] = _queueData[parent];
         _queueData[parent] = newElement;

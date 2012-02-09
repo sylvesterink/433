@@ -75,6 +75,11 @@ void partTwo(PCB* table)
     ReadyQueue q1;
 
     q1.insertProc(&table[3]);
+    q1.insertProc(&table[2]);
+    q1.insertProc(&table[6]);
+    q1.insertProc(&table[1]);
+    q1.insertProc(&table[11]);
+    q1.insertProc(&table[8]);
     q1.displayQueue();
     //ReadyQueue q1;
     //int r;
