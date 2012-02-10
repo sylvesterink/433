@@ -117,7 +117,8 @@ int ReadyQueue::getSize()
 void ReadyQueue::displayQueue()
 {
     for (int i = 0; i < _dataSize; i++) {
-        cout << _queueData[i]->id << " ";
+        cout << _queueData[i]->id << "|";
+        cout << _queueData[i]->priority << " ";
     }
 
     cout << endl;

@@ -95,7 +95,10 @@ void partTwo(PCB* table)
 
     int i;
     for(i = 0; i < NUM_CYCLES; i++) {
-        q1.removeHighestProc();
+        //q1.removeHighestProc();
+        cout << q1.removeHighestProc().id << endl;
+        q1.displayQueue();
+
         q1.agePriority();
 
         random = (rand() % TABLE_SIZE);
