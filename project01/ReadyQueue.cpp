@@ -27,6 +27,7 @@ bool ReadyQueue::isEmpty()
     return false;
 }
 
+//TODO: Make sure we aren't adding more than max quantity
 void ReadyQueue::insertProc(PCB* newElement)
 {
     int insertPos = _dataSize;
@@ -52,7 +53,7 @@ void ReadyQueue::insertProc(PCB* newElement)
 
 }
 
-//TODO: implement aging
+//TODO: make sure we aren't removing too many
 PCB ReadyQueue::removeHighestProc()
 {
     _queueData[0]->state = RUNNING;
