@@ -20,19 +20,19 @@ int main(int argc, const char *argv[])
     cout << "Priority Queue" << endl;
     cout << "Cavan Crawford and Brandon Kasa" << endl;
 
-    //cout << "Test 1:" << endl;
-    //PCB_table = new PCB[TABLE_SIZE];
-    //initialize(PCB_table);
-    //srand(time(0)); //initialize random number generator
-    //partOne(PCB_table);
-    //delete[] PCB_table;
-
-    cout << "\n\nTest 2:" << endl;
+    cout << "Test 1:" << endl;
     PCB_table = new PCB[TABLE_SIZE];
     initialize(PCB_table);
     srand(time(0)); //initialize random number generator
-    partTwo(PCB_table);
+    partOne(PCB_table);
     delete[] PCB_table;
+
+    //cout << "\n\nTest 2:" << endl;
+    //PCB_table = new PCB[TABLE_SIZE];
+    //initialize(PCB_table);
+    //srand(time(0)); //initialize random number generator
+    //partTwo(PCB_table);
+    //delete[] PCB_table;
 
     return 0;
 }
@@ -80,6 +80,9 @@ void partTwo(PCB* table)
     q1.insertProc(&table[1]);
     q1.insertProc(&table[11]);
     q1.insertProc(&table[8]);
+    q1.insertProc(&table[7]);
+    q1.displayQueue();
+    q1.removeHighestProc();
     q1.displayQueue();
     //ReadyQueue q1;
     //int r;

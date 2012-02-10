@@ -50,11 +50,49 @@ void ReadyQueue::insertProc(PCB* newElement)
 
 }
 
+//TODO: implement aging
 PCB ReadyQueue::removeHighestProc()
 {
-    PCB returnProcess;
+    PCB returnProcess = *_queueData[0];
+
+    _queueData[0] = _queueData[_dataSize - 1];
+
+    _queueData[_dataSize - 1] = NULL;
+    _dataSize--;
+
+    moveDown(0, _dataSize - 1);
 
     return returnProcess;
+}
+
+void ReadyQueue::moveDown(int firstElement, int lastElement)
+{
+    int smallest = 2 * firstElement + 1;
+    while (smallest <= lastElement) {
+        if ( (smallest < lastElement) &&
+                (_queueData[smallest]->getPriority() >
+                 _queueData[smallest + 1]->getPriority()) ) {
+            smallest++;
+        }
+
+        if (_queueData[firstElement]->getPriority() >
+                _queueData[smallest]->getPriority()) {
+            swap(firstElement, smallest);
+
+            firstElement = smallest;
+            smallest = 2 * firstElement + 1;
+        }
+        else {
+            smallest = lastElement + 1;
+        }
+    }
+}
+
+void ReadyQueue::swap(int first, int last)
+{
+    PCB* swapElement = _queueData[first];
+    _queueData[first] = _queueData[last];
+    _queueData[last] = swapElement;
 }
 
 int ReadyQueue::getSize()

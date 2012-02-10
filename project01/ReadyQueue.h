@@ -21,6 +21,10 @@ class ReadyQueue
         bool isEmpty();
 
     private:
+        void moveDown(int, int);
+        void swap(int, int);
+
+    private:
         PCB** _queueData;
         int _dataSize;
 };
