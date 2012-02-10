@@ -19,6 +19,7 @@ class ReadyQueue
         int getSize();
         void displayQueue();
         bool isEmpty();
+        void agePriority();
 
     private:
         void moveDown(int, int);

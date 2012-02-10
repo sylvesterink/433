@@ -30,13 +30,15 @@ bool ReadyQueue::isEmpty()
 void ReadyQueue::insertProc(PCB* newElement)
 {
     int insertPos = _dataSize;
-    int elPriority = newElement->getPriority();
+    int elPriority = newElement->priority;
+
+    newElement->state = READY;
 
     _queueData[_dataSize] = newElement;
     _dataSize++;
 
     int parent = (_dataSize/2) - 1;
-    while ( (insertPos != 0) && (elPriority < _queueData[parent]->getPriority()) ) {
+    while ( (insertPos != 0) && (elPriority < _queueData[parent]->priority) ) {
         _queueData[insertPos] = _queueData[parent];
         _queueData[parent] = newElement;
 
@@ -53,6 +55,8 @@ void ReadyQueue::insertProc(PCB* newElement)
 //TODO: implement aging
 PCB ReadyQueue::removeHighestProc()
 {
+    _queueData[0]->state = RUNNING;
+
     PCB returnProcess = *_queueData[0];
 
     _queueData[0] = _queueData[_dataSize - 1];
@@ -70,13 +74,13 @@ void ReadyQueue::moveDown(int firstElement, int lastElement)
     int smallest = 2 * firstElement + 1;
     while (smallest <= lastElement) {
         if ( (smallest < lastElement) &&
-                (_queueData[smallest]->getPriority() >
-                 _queueData[smallest + 1]->getPriority()) ) {
+                (_queueData[smallest]->priority >
+                 _queueData[smallest + 1]->priority) ) {
             smallest++;
         }
 
-        if (_queueData[firstElement]->getPriority() >
-                _queueData[smallest]->getPriority()) {
+        if (_queueData[firstElement]->priority >
+                _queueData[smallest]->priority) {
             swap(firstElement, smallest);
 
             firstElement = smallest;
@@ -95,6 +99,15 @@ void ReadyQueue::swap(int first, int last)
     _queueData[last] = swapElement;
 }
 
+void ReadyQueue::agePriority()
+{
+    for (int i = 0; i < _dataSize; i++) {
+        if (_queueData[i]->priority > 1) {
+            _queueData[i]->priority--;
+        }
+    }
+}
+
 int ReadyQueue::getSize()
 {
 
@@ -104,7 +117,7 @@ int ReadyQueue::getSize()
 void ReadyQueue::displayQueue()
 {
     for (int i = 0; i < _dataSize; i++) {
-        cout << _queueData[i]->getId() << " ";
+        cout << _queueData[i]->id << " ";
     }
 
     cout << endl;
