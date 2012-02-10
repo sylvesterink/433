@@ -107,9 +107,12 @@ void partTwo(PCB* table)
         q1.insertProc(&table[random]);
     }
 
+    gettimeofday(&endTime, NULL);
     cout << i << endl;
-    unsigned long initialTime = (startTime.tv_sec * NUM_CYCLES) + (startTime.tv_usec);
-    unsigned long finalTime = (endTime.tv_sec * NUM_CYCLES) + (endTime.tv_usec);
+    double initialTime = startTime.tv_sec+(startTime.tv_usec/1000000.0);
+    double finalTime = endTime.tv_sec+(endTime.tv_usec/1000000.0);
+    //unsigned long initialTime = (startTime.tv_sec * NUM_CYCLES) + (startTime.tv_usec);
+    //unsigned long finalTime = (endTime.tv_sec * NUM_CYCLES) + (endTime.tv_usec);
 
-    cout << finalTime - initialTime << " microseconds elapsed" << endl;
+    cout << finalTime - initialTime << " seconds elapsed" << endl;
 }
