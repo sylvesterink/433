@@ -108,6 +108,7 @@ bool initialize(PCB* table)
  *        Tests the enqueue and dequeue of the ReadyQueue, ensuring that it
  *        works correctly
  * @param table The array of processes to queue
+ * @param q1 ReadyQueue to use for operations, passed by reference
  */
 void partOne(PCB* table, ReadyQueue& q1)
 {
@@ -144,6 +145,7 @@ void partOne(PCB* table, ReadyQueue& q1)
  *        processes of random priorities over a number of cycles.
  *        When complete, displays the estimated processing time.
  * @param table The array of processes to queue
+ * @param q1 ReadyQueue to use for operations, passed by reference
  */
 void partTwo(PCB* table, ReadyQueue& q1)
 {

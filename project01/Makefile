@@ -1,5 +1,6 @@
 CC = g++
-CFLAGS = -c -g -Wall -pedantic
+#CFLAGS = -c -g -Wall -pedantic
+CFLAGS = -c -s -O2 -Wall -pedantic
 LIB = -lm
 LDFLAGS = -L.
 SOURCES = main.cpp ReadyQueue.cpp
