@@ -106,6 +106,9 @@ PCB ReadyQueue::removeHighestProc()
     // TODO: This could be more robust.
     if (_dataSize == 0) {
         PCB failReturn;
+        failReturn.id = 0;
+        failReturn.priority = 1;
+        failReturn.state = TERMINATED;
         return failReturn;
     }
 
