@@ -38,9 +38,9 @@ static const int MAX_PRIORITY = 50;
 static const int NUM_CYCLES = 1000000;
 
 // Function declarations
-void initialize(PCB*);
-void partOne(PCB*);
-void partTwo(PCB*);
+bool initialize(PCB*);
+void partOne(PCB*, ReadyQueue&);
+void partTwo(PCB*, ReadyQueue&);
 
 /**
  * @brief Main function. Initializes variables and calls tests.
@@ -51,24 +51,28 @@ void partTwo(PCB*);
 int main(int argc, const char *argv[])
 {
     // A dynamic array that will contain all the processes on the system
-    PCB* PCB_table;
+    PCB* PCB_table = NULL;
 
     cout << "Priority Queue" << endl;
     cout << "Cavan Crawford and Brandon Kasa" << endl;
 
-    // Create and initialize the array.
+    // Create a new array of the required size
+    PCB_table = new PCB[TABLE_SIZE];
+    // Create the ReadyQueue to be used
+    ReadyQueue q1;
+
+    // Initialize the array.
     if (initialize(PCB_table)) {
-        partOne(PCB_table);
-        // Clean up the table once finished
-        delete[] PCB_table;
+        partOne(PCB_table, q1);
     }
 
-    // Create and initialize the array.
+    // Reinitialize the array.
     if (initialize(PCB_table)) {
-        partTwo(PCB_table);
-        // Clean up the table once finished
-        delete[] PCB_table;
+        partTwo(PCB_table, q1);
     }
+
+    // Clean up the table once finished
+    delete[] PCB_table;
 
     return 0;
 }
@@ -80,9 +84,6 @@ int main(int argc, const char *argv[])
  */
 bool initialize(PCB* table)
 {
-    // Create a new array of the required size
-    table = new PCB[TABLE_SIZE];
-
     if (table == NULL) {
         return false;
     }
@@ -108,13 +109,11 @@ bool initialize(PCB* table)
  *        works correctly
  * @param table The array of processes to queue
  */
-void partOne(PCB* table)
+void partOne(PCB* table, ReadyQueue& q1)
 {
     // Test 1 in the assignment
     cout << "Test 1:" << endl;
 
-    // Create a ReadyQueue and enqueue some processes from the process table
-    ReadyQueue q1;
     q1.insertProc(&table[4]);
     q1.insertProc(&table[0]);
     q1.insertProc(&table[7]);
@@ -146,18 +145,16 @@ void partOne(PCB* table)
  *        When complete, displays the estimated processing time.
  * @param table The array of processes to queue
  */
-void partTwo(PCB* table)
+void partTwo(PCB* table, ReadyQueue& q1)
 {
     // Test 2 in the assignment
     cout << "\nTest 2:" << endl;
 
-    // Create the queue, then add an initial batch of processes with random
-    // priority from the process table.
-    ReadyQueue q1;
-
     // Random value, to be used in selecting processes from table
     int random = 0;
 
+    // Add an initial batch of processes with random
+    // priority from the process table.
     for(int i = 0; i < 10; i++) {
         random = (rand() % TABLE_SIZE);
 
