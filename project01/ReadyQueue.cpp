@@ -111,8 +111,7 @@ void ReadyQueue::agePriority()
 
 int ReadyQueue::getSize()
 {
-
-    return 0;
+    return _dataSize;
 }
 
 void ReadyQueue::displayQueue()

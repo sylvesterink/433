@@ -30,5 +30,4 @@ class ReadyQueue
         int _dataSize;
 };
 
-
 #endif /* end of include guard: READYQUEUE_H */
