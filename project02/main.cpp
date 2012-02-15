@@ -1,21 +1,35 @@
 #include <iostream>
 #include <stack>
 #include <string>
+#include <sstream>
+#include <cstring>
+#include <cstdlib>
+#include <iterator>
 
 using namespace std;
+
+void getCommand();
+void processCommand(string&, string[]);
+void execCommand();
+void runProcess();
 
 int main(int argc, const char* argv[])
 {
 
   cout << "Myshell" << endl;
-  char inputString[256];
-  string command = "";
-
+  char input[256];
+  string inputString = "";
+  string command[125];
+  
   while(true){
-    cin.getline(inputString, 256);
-    if(strcmp(inputString, "exit") == 0)
+    cin.getline(input, 256);
+    if(strcmp(input, "exit") == 0)
       exit(0);
-
+    inputString = input;
+    processCommand(inputString, command);
+    for(int i = 0; i < 125; i++) {
+      cout << command[i] << endl;
+    }
   }//end while
 
 
@@ -39,10 +53,15 @@ void getCommand()
 }
 
 
-void processCommand()
+void processCommand(string &rawCommand, string commandList[])
 {
-
-
+  istringstream convertInput(rawCommand);
+  string temp = "";
+  int counter = 0;
+  while( getline(convertInput, commandList[counter], ' ') ){
+   counter++;
+  }
+   //cout << temp << endl;  
 
 }
 
