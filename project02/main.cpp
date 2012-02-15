@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stack>
+#include <string>
 
 using namespace std;
 
@@ -7,12 +8,13 @@ int main(int argc, const char* argv[])
 {
 
   cout << "Myshell" << endl;
+  char inputString[256];
+  string command = "";
 
-  while(){
-
-
-
-
+  while(true){
+    cin.getline(inputString, 256);
+    if(strcmp(inputString, "exit") == 0)
+      exit(0);
 
   }//end while
 
