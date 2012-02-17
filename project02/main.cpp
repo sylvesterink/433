@@ -9,17 +9,23 @@
 using namespace std;
 
 void getCommand();
-void processCommand(string&, string[]);
+void processCommand(string&, char**);
 void execCommand();
 void runProcess();
+
+const int MAX_PARAMETERS = 125;
+const int MAX_LINE_SIZE = 256;
 
 int main(int argc, const char* argv[])
 {
 
   cout << "Myshell" << endl;
-  char input[256];
+  char input[MAX_LINE_SIZE];
   string inputString = "";
-  string command[125];
+  char** command = NULL;
+  for(int j = 0; j < MAX_PARAMETERS; j++){
+    command[j] = "";
+  }
   
   while(true){
     cin.getline(input, 256);
@@ -27,16 +33,20 @@ int main(int argc, const char* argv[])
       exit(0);
     inputString = input;
     processCommand(inputString, command);
-    for(int i = 0; i < 125; i++) {
-      cout << command[i] << endl;
-    }
+
+    //execv("/bin/ls", command);
+    //for(int i = 0; i < 125; i++) {
+    //  cout << command[i] << endl;
+    // }
+    cout << command[0] << endl;
   }//end while
 
 
 
 
 
-
+  if(commandList != NULL)
+    delete *commandList;
 
   return 0;
 }
@@ -53,16 +63,18 @@ void getCommand()
 }
 
 
-void processCommand(string &rawCommand, string commandList[])
+void processCommand(string &rawCommand, char** commandList)
 {
   istringstream convertInput(rawCommand);
+  vector<string> commandVector;
   string temp = "";
-  int counter = 0;
-  while( getline(convertInput, commandList[counter], ' ') ){
-   counter++;
+  //int counter = 0;
+  while( getline(convertInput, temp, ' ') ){
+    commandVector.add(temp);
   }
-   //cout << temp << endl;  
-
+  *commandList = new char[commandVector.size() + 1]; 
+  for(int i = 0; i < commandVector.size() + 1; i++) {
+    commandList[i] = commandVector[i].c_str();
 }
 
 void execCommand()
