@@ -34,34 +34,29 @@ int main(int argc, const char* argv[])
         else {
             numParams = processCommand(inputString, parameters);
 
-            //for (int i = 0; i < 6; i++) {
-                //cout << parameters[i] << endl;
-            //}
             execvp(parameters[0], parameters);
+
+            // if exec returns, it failed to execute
+            // TODO: exec will need to be called in forked process
+            // so that memory is correctly deallocated in main process
+            cout << "Unknown Command" << endl;
+            loop = false;
         }
     }//end while
 
-    //if(command != NULL) {
-        //for (int i = 0; i < numParams; i++) {
-            //delete[] command[i];
-        //}
-        //delete[] command;
-    //}
+    for (int i = 0; i < numParams; i++) {
+        if(parameters[i] != NULL) {
+            delete[] parameters[i];
+        }
+    }
 
     return 0;
 }
 
-
-
 void getCommand()
 {
 
-
-
-
-
 }
-
 
 int processCommand(string &rawCommand, char** commandList)
 {
@@ -74,7 +69,7 @@ int processCommand(string &rawCommand, char** commandList)
     while( getline(convertInput, temp, ' ') &&
             (parameterCount < MAX_PARAMETERS - 1) ){
 
-        commandList[parameterCount] = new char[temp.size()];
+        commandList[parameterCount] = new char[temp.size() + 1];
         strcpy(commandList[parameterCount], temp.c_str());
         parameterCount++;
     }
@@ -84,34 +79,29 @@ int processCommand(string &rawCommand, char** commandList)
     return parameterCount;
 }
 
-    void execCommand()
-    {
+void execCommand()
+{
 
+}
 
+void runProcess()
+{
+    pid_t  pid;
+    /* fork another process */
+    pid = fork();
+
+    if (pid < 0) { /* error occurred */
+        cerr << "Fork Failed" << endl;
+        exit(-1);
     }
-
-
-    void runProcess()
-    {
-        pid_t  pid;
-        /* fork another process */
-        pid = fork();
-
-        if (pid < 0) { /* error occurred */
-            cerr << "Fork Failed" << endl;
-            exit(-1);
-        }
-        else if (pid == 0) { /* child process */
-            cout << "executing child" << endl;
-            execlp("/bin/ls", "ls", NULL);
-        }
-        else { /* parent process */
-            /* parent will wait for the child to complete */
-            wait();
-            cout << "Child Complete" << endl;
-            //exit(0);
-        }
-
-
-
+    else if (pid == 0) { /* child process */
+        cout << "executing child" << endl;
+        execlp("/bin/ls", "ls", NULL);
     }
+    else { /* parent process */
+        /* parent will wait for the child to complete */
+        wait();
+        cout << "Child Complete" << endl;
+        //exit(0);
+    }
+}
