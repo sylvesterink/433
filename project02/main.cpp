@@ -10,9 +10,9 @@
 using namespace std;
 
 void getCommand();
-int processCommand(string&, char**);
-void execCommand();
-void runProcess();
+int parseCommand(string&, char**);
+bool runLocalProcess(char**);
+void runProcess(char**);
 
 const int MAX_PARAMETERS = 125;
 
@@ -27,20 +27,23 @@ int main(int argc, const char* argv[])
     bool loop = true;
 
     while(loop){
+        //cout << "> ";
         getline(cin, inputString);
+        //cout << endl;
+
         if( inputString == "exit") {
             loop = false;
         }
         else {
-            numParams = processCommand(inputString, parameters);
+            numParams = parseCommand(inputString, parameters);
 
-            execvp(parameters[0], parameters);
+            if (!runLocalProcess(parameters)) {
+                runProcess(parameters);
+            }
 
             // if exec returns, it failed to execute
             // TODO: exec will need to be called in forked process
             // so that memory is correctly deallocated in main process
-            cout << "Unknown Command" << endl;
-            loop = false;
         }
     }//end while
 
@@ -58,7 +61,7 @@ void getCommand()
 
 }
 
-int processCommand(string &rawCommand, char** commandList)
+int parseCommand(string &rawCommand, char** commandList)
 {
     istringstream convertInput(rawCommand);
 
@@ -79,12 +82,26 @@ int processCommand(string &rawCommand, char** commandList)
     return parameterCount;
 }
 
-void execCommand()
+bool runLocalProcess(char** commandList)
 {
 
+    if ( strcmp(commandList[0], "pushd") == 0 ) {
+        return true;
+    }
+    else if ( strcmp(commandList[0], "popd") == 0 ) {
+        return true;
+    }
+    else if ( strcmp(commandList[0], "dirs") == 0 ) {
+        return true;
+    }
+    else if ( strcmp(commandList[0], "cd") == 0 ) {
+        return true;
+    }
+
+    return false;
 }
 
-void runProcess()
+void runProcess(char** commandList)
 {
     pid_t  pid;
     /* fork another process */
@@ -95,13 +112,13 @@ void runProcess()
         exit(-1);
     }
     else if (pid == 0) { /* child process */
-        cout << "executing child" << endl;
-        execlp("/bin/ls", "ls", NULL);
+        execvp(commandList[0], commandList);
+        cout << "Unknown Command" << endl;
+        exit(0);
     }
     else { /* parent process */
         /* parent will wait for the child to complete */
         wait();
-        cout << "Child Complete" << endl;
         //exit(0);
     }
 }
