@@ -26,47 +26,39 @@ int main(int argc, const char* argv[])
 
     string inputString = "";
     char* parameters[MAX_PARAMETERS];
-
-    //Validate array
-    for(int i = 0; i < MAX_PARAMETERS; i++) {
-      parameters[i] = NULL;
-    }
-
-    //int numParams = 0; no longer needed
+    int numParams = 0;
 
     vector<string> directoryStack;
 
     bool loop = true;
 
-    string temp = "";
-
     while(loop){
         //cout << "> ";
         getline(cin, inputString);
         //cout << endl;
-	if(inputString == "") { //Only new line was entered
-	  continue; //I still think this is better than another nested else if
-	}
+
         if( inputString == "exit") {
             loop = false;
         }
-        else {
-            parseCommand(inputString, parameters);
-	    if (!runLocalProcess(parameters, directoryStack)) {
-	      runProcess(parameters);
-	    }
+        else if (!inputString.empty())
+        {
+            numParams = parseCommand(inputString, parameters);
+
+            if (!runLocalProcess(parameters, directoryStack)) {
+                runProcess(parameters);
+            }
+            for (int i = 0; i < numParams; i++) {
+                if(parameters[i] != NULL) {
+                    delete[] parameters[i];
+                }
+            }
+
             // if exec returns, it failed to execute
             // TODO: exec will need to be called in forked process
             // so that memory is correctly deallocated in main process
         }
     }//end while
 
-    
-    for (int i = 0; i < MAX_PARAMETERS; i++) {
-        if(parameters[i] != NULL) {
-            delete[] parameters[i];
-        }
-    }
 
     return 0;
 }
@@ -81,7 +73,7 @@ int parseCommand(string &rawCommand, char** commandList)
 
     while( getline(convertInput, temp, ' ') &&
             (parameterCount < MAX_PARAMETERS - 1) ){
-      //      cout << temp << endl;
+
         commandList[parameterCount] = new char[temp.size() + 1];
         strcpy(commandList[parameterCount], temp.c_str());
         parameterCount++;
