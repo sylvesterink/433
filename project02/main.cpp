@@ -49,9 +49,9 @@ int main(int argc, const char* argv[])
     bool loop = true;
 
     while(loop){
-        //cout << "> ";
+        cout << endl;
+        cout << "> ";
         getline(cin, inputString);
-        //cout << endl;
 
         if( inputString == "exit") {
             loop = false;
