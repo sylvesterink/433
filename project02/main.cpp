@@ -1,3 +1,15 @@
+/**
+ * @file main.cpp
+ * @brief A simple command line shell implementation.
+ *        Implements cd, pushd, popd, and dirs internally.
+ *        All other commands are passed to the OS.
+ * @author Cavan Crawford and Brandon Kasa
+ * @version 1.0
+ * @date 2012-02-29
+ * @course CS433
+ * @assignment 2
+ * @compilation make
+ */
 #include <iostream>
 #include <vector>
 #include <string>
@@ -5,7 +17,11 @@
 
 #include <cstring>
 #include <cstdlib>
+
+// These need to be explicitely stated to call the correct functions,
+// most notably, wait(), or waitpid()
 #include <errno.h>
+#include <wait.h>
 
 using namespace std;
 
@@ -184,6 +200,7 @@ void runProcess(char** commandList)
     }
     else { // parent process
         // parent will wait for the child to complete
-        wait();
+        //wait(0);
+        waitpid(pid, 0,0);
     }
 }
