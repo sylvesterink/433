@@ -5,7 +5,7 @@ Event::Event()
     //fail.
 }
 
-Event::Event(int type, long int startTime, int pID)
+Event::Event(int type, long startTime, int pID)
 {
     _type = type;
     _startTime = startTime;
@@ -17,7 +17,7 @@ Event::~Event()
 
 }
 
-long int Event::getStartTime()
+long Event::getStartTime()
 {
     return _startTime;
 }
@@ -32,9 +32,10 @@ int Event::getPID()
     return _pID;
 }
 
-bool Event::operator<(Event param)
+bool Event::operator<(const Event &param) const
 {
-    return (_startTime < param.getStartTime());
+    // Implemented using > so that priority is reversed
+    return (_startTime > param._startTime);
 }
 
 //void Event::setStartTime(long startTime)

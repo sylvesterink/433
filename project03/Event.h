@@ -12,14 +12,14 @@ class Event
 {
 public:
     Event();
-    Event(int type, long int startTime, int pID);
+    Event(int type, long startTime, int pID);
     ~Event();
 
-    long int getStartTime();
+    long getStartTime();
     int getType();
     int getPID();
 
-    bool operator < (Event);
+    bool operator< (const Event &param) const;
 
     //void setStartTime(long startTime);
     //void setType(int type);
@@ -27,10 +27,8 @@ public:
 
 private:
     int _type;
-    long int _startTime;
+    long _startTime;
     int _pID;
 };
-
-
 
 #endif /* end of include guard: EVENT_H */
