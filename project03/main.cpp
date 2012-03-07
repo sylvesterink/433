@@ -5,13 +5,17 @@
 using namespace std;
 
 #include "Event.h"
+#include "Process.h"
 
 void initializeEventQueue();
+void initializeProcesses();
 void handleEvent();
+
 
 int main(int argc, const char *argv[])
 {
     priority_queue<Event> eventQueue;
+    queue<Process> pQueue;
     int endTime = 300;
     initializeEventQueue();
 

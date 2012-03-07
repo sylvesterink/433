@@ -11,19 +11,36 @@ enum {
 class Process
 {
 public:
-    Process();
+    Process(int pID, long startTime, int priority);
     ~Process();
+    
+    int getPID();
+    long getStartTime();
+    long getTotalCpuDuration();
+    long getRemainingCpuDuration();
+    long getAvgCpuBurstLength();
+    long getNextCpuBurstLength();
+    long getIoBurstTime();
+    int getPriority();
+    int getStatus();
+
+    void addTotalCpuDuration(long cpuDurationIncrease);
+    void setRemainingCpuDuration(long newDuration);
+    void setAvgCpuBurstLength(long newAvgLength);
+    void setNextCpuBurstLength(long newNextLength);
+    void setIoBurstTime(long newBurstTime);
+    void setStatus(int newStatus);
 
 private:
-    int pID;
-    long startTime;
-    long totalCpuDuration;
-    long remainingCpuDuration;
-    long avgCpuBurstLength;
-    long nextCpuBurstLength;
-    long ioBurstTime;
-    int priority;
-    int status;
+    int _pID;
+    long _startTime;
+    long _totalCpuDuration;
+    long _remainingCpuDuration;
+    long _avgCpuBurstLength;
+    long _nextCpuBurstLength;
+    long _ioBurstTime;
+    int _priority;
+    int _status;
 };
 
 
