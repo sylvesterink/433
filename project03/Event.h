@@ -12,12 +12,23 @@ class Event
 {
 public:
     Event();
+    Event(int type, long int startTime, int pID);
     ~Event();
 
+    long int getStartTime();
+    int getType();
+    int getPID();
+
+    bool operator < (Event);
+
+    //void setStartTime(long startTime);
+    //void setType(int type);
+    //void setPID(int pID);
+
 private:
-    int type;
-    long startTime;
-    int pID;
+    int _type;
+    long int _startTime;
+    int _pID;
 };
 
 
