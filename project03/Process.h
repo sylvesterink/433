@@ -1,6 +1,6 @@
 #ifndef PROCESS_H
 #define PROCESS_H
-
+#include "random.h"
 enum {
     P_READY,
     P_RUNNING,
@@ -31,16 +31,24 @@ public:
     void setIoBurstTime(long newBurstTime);
     void setStatus(int newStatus);
 
+    void setNextCpuBurstLength();//uses provided functions in random.cpp
+    void setNextIoBurstTime(long minTime, long maxTime);
+
 private:
     int _pID;
     long _startTime;
     long _totalCpuDuration;
     long _remainingCpuDuration;
     long _avgCpuBurstLength;
-    long _nextCpuBurstLength;
+    int _nextCpuBurstLength;
     long _ioBurstTime;
     int _priority;
     int _status;
+
+    long setStartTime(long maxTime);
+    long setTotalCpuDuration(long minTime, long maxTime);
+    long setAvgCpuBurstLength(long minTime, long maxTime);
+
 };
 
 

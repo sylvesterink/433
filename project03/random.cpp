@@ -129,3 +129,20 @@ float poidev(float xm, long *idum)
 	return em;
 }
 #undef PI
+
+/**                                                                                                                                                                                           
+ Following Random number generation functions are for CS433 assignment 3
+*/
+
+void setRandom()
+{
+
+
+}
+
+int getRandom()
+{
+  int r = 0;
+
+  return r;
+}
