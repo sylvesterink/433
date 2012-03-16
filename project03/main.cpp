@@ -59,6 +59,8 @@ int main(int argc, const char *argv[])
         handleEvent(nextEvent);
     }
 
+    cleanupProcesses(processList);
+
     return 0;
 }
 
@@ -102,7 +104,10 @@ void handleEvent(Event &e)
 void cleanupProcesses(vector<Process*>& processList)
 {
     for (unsigned int i = 0; i < processList.size(); i++) {
-        delete processList[i];
+        if (processList[i] != NULL) {
+            delete processList[i];
+            processList[i] = NULL;
+        }
     }
 
 }
