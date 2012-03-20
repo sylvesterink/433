@@ -3,11 +3,13 @@
 Process::Process(int pID, int priority)
 {
     _pID = pID;
-    _startTime = setStartTime(300000);//0 - 5min
     _priority = priority;
-    _totalCpuDuration = setTotalCpuDuration(1000, 60000);//1s - 1min
+
+    randomizeStartTime(300000);//0 - 5min
+    randomizeTotalCpuDuration(1000, 60000);//1s - 1min
+    randomizeAvgCpuBurstLength(5, 100);//5ms - 100ms
+
     _remainingCpuDuration = _totalCpuDuration;
-    _avgCpuBurstLength = setAvgCpuBurstLength(5, 100);//5ms - 100ms
     _nextCpuBurstLength = 0; //call provided function in random.cpp
     _ioBurstTime = 0;
     _status = P_WAITING;
@@ -97,7 +99,7 @@ void Process::setStatus(int newStatus)
 
 void Process::setNextCpuBurstLength()
 {
-    _nextCpuBurstLength = CPUBurstRandom(_avgCpuBurstLength); 
+    _nextCpuBurstLength = CPUBurstRandom(_avgCpuBurstLength);
 }
 
 void Process::setNextIoBurstTime(long minTime, long maxTime)
@@ -107,27 +109,19 @@ void Process::setNextIoBurstTime(long minTime, long maxTime)
     //_nextioBurstTime = something
 }
 
-long Process::setStartTime(long maxTime)
+void Process::randomizeStartTime(long maxTime)
 {
-    //0 - 300,000 ms
-    long rand = 0;
-
-    return rand;
+    _startTime = rand() % maxTime;
 }
 
-long Process::setTotalCpuDuration(long minTime, long maxTime)
+void Process::randomizeTotalCpuDuration(long minTime, long maxTime)
 {
-    long rand = 0;
-
-    return rand;
+    _totalCpuDuration = rand() % maxTime + minTime;
 }
 
-long Process::setAvgCpuBurstLength(long minTime, long maxTime)
+void Process::randomizeAvgCpuBurstLength(long minTime, long maxTime)
 {
-    //5ms - 100ms
-    long rand = 0;
-
-    return rand;
+    _avgCpuBurstLength = rand() % maxTime + minTime;
 }
 
 /* Multiple < needed depending on algorithym used.

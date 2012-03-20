@@ -5,16 +5,11 @@
 
 using namespace std;
 
-#include "Event.h"
-#include "Process.h"
+#include "FCFSSystem.h"
 
 static const int MAX_RUNTIME = 300000; // 5 minutes in milliseconds
 
-void initializeProcesses(vector<Process*>&, int);
-void initializeEventQueue();
-void handleEvent(Event&);
-
-void cleanupProcesses(vector<Process*>&);
+void handleEvent(Event&, System*);
 
 
 int main(int argc, const char *argv[])
@@ -34,21 +29,13 @@ int main(int argc, const char *argv[])
     cout << "Discrete Event Simulator" << endl;
     cout << "Cavan Crawford and Brandon Kasa" << endl;
 
-    cout << numProcesses << endl;
     priority_queue<Event> eventQueue;
 
-    vector<Process*> processList;
-    queue<Process*> pQueue;
+    FCFSSystem simSystem;
 
-    initializeProcesses(processList, numProcesses);
-    initializeEventQueue();
+    srand( time(NULL) );
 
-
-    //TODO: Remove, for testing only
-    for (unsigned int i = 0; i < processList.size(); i++) {
-        cout << processList.at(i)->getPID() << " " << processList.at(i)->getStartTime() << endl;
-    }
-
+    simSystem.initializeProcesses(numProcesses, eventQueue);
 
     int currentTime = 0;
 
@@ -56,58 +43,34 @@ int main(int argc, const char *argv[])
         Event nextEvent = eventQueue.top();
         eventQueue.pop();
         currentTime = nextEvent.getStartTime();
-        handleEvent(nextEvent);
+        handleEvent(nextEvent, &simSystem);
     }
-
-    cleanupProcesses(processList);
 
     return 0;
 }
 
-//TODO: Memory Leak In Here!  Run valgrind to check
-void initializeProcesses(vector<Process*>& processList, int numProcesses)
-{
-    for (int i = 0; i < numProcesses; i++) {
-        Process* newProcess = new Process(i);
-        processList.push_back(newProcess);
-    }
-
-}
-
-void initializeEventQueue()
-{
-
-}
-
-void handleEvent(Event &e)
+void handleEvent(Event &e, System* simSystem)
 {
     int eventType = e.getType();
 
     switch (eventType) {
         case E_PROCESS_ARRIVAL:
+            simSystem->onProcArrival(e.getPID());
             //handle_proc_arrival(e)
             break;
         case E_CPU_BURST_COMPLETION:
+            simSystem->onCpuComplete(e.getPID());
             //handle_CPU_completion(e)
             break;
         case E_IO_COMPLETION:
+            simSystem->onIoComplete(e.getPID());
             //handle_IO_completion(e)
             break;
         case E_TIMER_EXPIRATION:
+            simSystem->onTimerExpiration(e.getPID());
             //handle_Timer_expiration(e)
             break;
     }
 
     //schedular.run();
-}
-
-void cleanupProcesses(vector<Process*>& processList)
-{
-    for (unsigned int i = 0; i < processList.size(); i++) {
-        if (processList[i] != NULL) {
-            delete processList[i];
-            processList[i] = NULL;
-        }
-    }
-
 }

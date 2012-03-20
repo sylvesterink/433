@@ -1,6 +1,10 @@
 #ifndef PROCESS_H
 #define PROCESS_H
+
+#include <cstdlib>
+#include <ctime>
 #include "random.h"
+
 enum {
     P_READY,
     P_RUNNING,
@@ -45,9 +49,9 @@ class Process
         int _priority;
         int _status;
 
-        long setStartTime(long maxTime);
-        long setTotalCpuDuration(long minTime, long maxTime);
-        long setAvgCpuBurstLength(long minTime, long maxTime);
+        void randomizeStartTime(long maxTime);
+        void randomizeTotalCpuDuration(long minTime, long maxTime);
+        void randomizeAvgCpuBurstLength(long minTime, long maxTime);
 
 };
 
