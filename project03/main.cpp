@@ -49,6 +49,7 @@ int main(int argc, const char *argv[])
     return 0;
 }
 
+//TODO: Move into System object
 void handleEvent(Event &e, System* simSystem)
 {
     int eventType = e.getType();
