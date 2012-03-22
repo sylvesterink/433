@@ -29,12 +29,10 @@ int main(int argc, const char *argv[])
     cout << "Discrete Event Simulator" << endl;
     cout << "Cavan Crawford and Brandon Kasa" << endl;
 
-    priority_queue<Event> eventQueue;
-
-    FCFSSystem simSystem;
-
     srand( time(NULL) );
 
+    priority_queue<Event> eventQueue;
+    FCFSSystem simSystem;
     simSystem.initializeProcesses(numProcesses, eventQueue);
 
     int currentTime = 0;
@@ -52,26 +50,27 @@ int main(int argc, const char *argv[])
 //TODO: Move into System object
 void handleEvent(Event &e, System* simSystem)
 {
-    int eventType = e.getType();
+    simSystem->handleEvent(e);
+    //int eventType = e.getType();
 
-    switch (eventType) {
-        case E_PROCESS_ARRIVAL:
-            simSystem->onProcArrival(e.getPID());
-            //handle_proc_arrival(e)
-            break;
-        case E_CPU_BURST_COMPLETION:
-            simSystem->onCpuComplete(e.getPID());
-            //handle_CPU_completion(e)
-            break;
-        case E_IO_COMPLETION:
-            simSystem->onIoComplete(e.getPID());
-            //handle_IO_completion(e)
-            break;
-        case E_TIMER_EXPIRATION:
-            simSystem->onTimerExpiration(e.getPID());
-            //handle_Timer_expiration(e)
-            break;
-    }
+    //switch (eventType) {
+        //case E_PROCESS_ARRIVAL:
+            //simSystem->onProcArrival(e.getPID());
+            ////handle_proc_arrival(e)
+            //break;
+        //case E_CPU_BURST_COMPLETION:
+            //simSystem->onCpuComplete(e.getPID());
+            ////handle_CPU_completion(e)
+            //break;
+        //case E_IO_COMPLETION:
+            //simSystem->onIoComplete(e.getPID());
+            ////handle_IO_completion(e)
+            //break;
+        //case E_TIMER_EXPIRATION:
+            //simSystem->onTimerExpiration(e.getPID());
+            ////handle_Timer_expiration(e)
+            //break;
+    //}
 
     //schedular.run();
 }

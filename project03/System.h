@@ -22,6 +22,8 @@ class System {
         virtual void onTimerExpiration(int PID) = 0;
         virtual void dispatch() = 0;
 
+        void handleEvent(Event &e);
+
     protected:
         virtual void cleanupProcesses() = 0;
 
