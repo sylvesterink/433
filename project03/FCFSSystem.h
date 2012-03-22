@@ -12,7 +12,6 @@ class FCFSSystem : public System
         FCFSSystem();
         virtual ~FCFSSystem();
 
-        virtual void initializeProcesses(int numProcesses, priority_queue<Event>& eventQueue);
         virtual void onProcArrival(int PID);
         virtual void onCpuComplete(int PID);
         virtual void onIoComplete(int PID);

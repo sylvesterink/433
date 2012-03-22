@@ -15,7 +15,7 @@ class System {
         virtual ~System();
 
         virtual void initializeProcesses(int numProcesses,
-                priority_queue<Event>& eventQueue) = 0;
+                priority_queue<Event>& eventQueue);
         virtual void onProcArrival(int PID) = 0;
         virtual void onCpuComplete(int PID) = 0;
         virtual void onIoComplete(int PID) = 0;
