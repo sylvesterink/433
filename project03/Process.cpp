@@ -12,7 +12,7 @@ Process::Process(int pID, int priority)
     _remainingCpuDuration = _totalCpuDuration;
     _nextCpuBurstLength = 0; //call provided function in random.cpp
     _ioBurstTime = 0;
-    _status = P_WAITING;
+    _status = P_READY;
 
 }
 
@@ -82,14 +82,9 @@ void Process::setAvgCpuBurstLength(long newAvgLength)
     _avgCpuBurstLength = newAvgLength;
 }
 
-void Process::setNextCpuBurstLength(long newNextLength)
+void Process::setIoBurstTime()
 {
-    _nextCpuBurstLength = newNextLength;
-}
-
-void Process::setIoBurstTime(long newBurstTime)
-{
-    _ioBurstTime = newBurstTime;
+    _ioBurstTime = rand() % 100 + 30;
 }
 
 void Process::setStatus(int newStatus)

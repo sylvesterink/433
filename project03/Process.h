@@ -31,8 +31,7 @@ class Process
         void addTotalCpuDuration(long cpuDurationIncrease);
         void setRemainingCpuDuration(long newDuration);
         void setAvgCpuBurstLength(long newAvgLength);
-        void setNextCpuBurstLength(long newNextLength);
-        void setIoBurstTime(long newBurstTime);
+        void setIoBurstTime();
         void setStatus(int newStatus);
 
         void setNextCpuBurstLength();//uses provided functions in random.cpp

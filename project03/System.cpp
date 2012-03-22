@@ -2,7 +2,7 @@
 
 System::System()
 {
-
+    CPU = NULL;
 }
 
 System::~System()
@@ -54,10 +54,11 @@ void System::handleEvent(Event &event)
             onIoComplete(event);
             //handle_IO_completion(e)
             break;
-        case E_TIMER_EXPIRATION:
-            onTimerExpiration(event);
-            //handle_Timer_expiration(e)
-            break;
+        //TODO: Remove this, it will be in derived function
+        //case E_TIMER_EXPIRATION:
+            //onTimerExpiration(event);
+            ////handle_Timer_expiration(e)
+            //break;
     }
 
     //schedular.run();

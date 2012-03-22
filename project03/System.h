@@ -20,10 +20,9 @@ class System {
         virtual void onProcArrival(Event &event) = 0;
         virtual void onCpuComplete(Event &event) = 0;
         virtual void onIoComplete(Event &event) = 0;
-        virtual void onTimerExpiration(Event &event) = 0;
-        virtual void dispatch() = 0;
+        virtual void dispatch(Event &event) = 0;
 
-        void handleEvent(Event &event);
+        virtual void handleEvent(Event &event);
 
     protected:
         virtual void cleanupProcesses();
@@ -32,7 +31,7 @@ class System {
         priority_queue<Event> eventQueue;
 
         vector<Process*> processList;
-        vector<Process*> IOQueue;
+        //vector<Process*> IOQueue;
 
         Process* CPU;
 };

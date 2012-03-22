@@ -15,8 +15,7 @@ class FCFSSystem : public System
         virtual void onProcArrival(Event &event);
         virtual void onCpuComplete(Event &event);
         virtual void onIoComplete(Event &event);
-        virtual void onTimerExpiration(Event &event);
-        virtual void dispatch();
+        virtual void dispatch(Event &event);
 
     protected:
         queue<Process*> readyQueue;
