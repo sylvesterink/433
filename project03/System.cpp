@@ -10,7 +10,7 @@ System::~System()
 
 }
 
-void System::initializeProcesses(int numProcesses, priority_queue<Event>& eventQueue)
+void System::initializeProcesses(int numProcesses)
 {
     for (int i = 0; i < numProcesses; i++) {
         Process* newProcess = new Process(i);
@@ -22,28 +22,53 @@ void System::initializeProcesses(int numProcesses, priority_queue<Event>& eventQ
 
 }
 
-void System::handleEvent(Event &e)
+//TODO: Move into System object
+void System::simulation(int numProcesses, int maxTime)
 {
-    int eventType = e.getType();
+    initializeProcesses(numProcesses);
+
+    int currentTime = 0;
+
+    while ( (!eventQueue.empty()) && (currentTime < maxTime) ) {
+        Event nextEvent = eventQueue.top();
+        eventQueue.pop();
+        currentTime = nextEvent.getStartTime();
+        handleEvent(nextEvent);
+    }
+}
+
+void System::handleEvent(Event &event)
+{
+    int eventType = event.getType();
 
     switch (eventType) {
         case E_PROCESS_ARRIVAL:
-            onProcArrival(e.getPID());
+            onProcArrival(event);
             //handle_proc_arrival(e)
             break;
         case E_CPU_BURST_COMPLETION:
-            onCpuComplete(e.getPID());
+            onCpuComplete(event);
             //handle_CPU_completion(e)
             break;
         case E_IO_COMPLETION:
-            onIoComplete(e.getPID());
+            onIoComplete(event);
             //handle_IO_completion(e)
             break;
         case E_TIMER_EXPIRATION:
-            onTimerExpiration(e.getPID());
+            onTimerExpiration(event);
             //handle_Timer_expiration(e)
             break;
     }
 
     //schedular.run();
+}
+
+void System::cleanupProcesses()
+{
+    for (unsigned int i = 0; i < processList.size(); i++) {
+        if (processList[i] != NULL) {
+            delete processList[i];
+            processList[i] = NULL;
+        }
+    }
 }

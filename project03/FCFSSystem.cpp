@@ -11,24 +11,24 @@ FCFSSystem::~FCFSSystem()
 }
 
 
-void FCFSSystem::onProcArrival(int PID)
+void FCFSSystem::onProcArrival(Event &event)
 {
-    cout << "Process Arrived " << PID << endl;
+    cout << "Process Arrived " << event.getPID() << endl;
 }
 
-void FCFSSystem::onCpuComplete(int PID)
+void FCFSSystem::onCpuComplete(Event &event)
 {
-    cout << "Burst Complete " << PID << endl;
+    cout << "Burst Complete " << event.getPID() << endl;
 }
 
-void FCFSSystem::onIoComplete(int PID)
+void FCFSSystem::onIoComplete(Event &event)
 {
-    cout << "IO Complete " << PID << endl;
+    cout << "IO Complete " << event.getPID() << endl;
 }
 
-void FCFSSystem::onTimerExpiration(int PID)
+void FCFSSystem::onTimerExpiration(Event &event)
 {
-    cout << "Timer Expired " << PID << endl;
+    cout << "Timer Expired " << event.getPID() << endl;
 }
 
 void FCFSSystem::dispatch()
@@ -36,12 +36,3 @@ void FCFSSystem::dispatch()
 
 }
 
-void FCFSSystem::cleanupProcesses()
-{
-    for (unsigned int i = 0; i < processList.size(); i++) {
-        if (processList[i] != NULL) {
-            delete processList[i];
-            processList[i] = NULL;
-        }
-    }
-}

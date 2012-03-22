@@ -12,13 +12,11 @@ class FCFSSystem : public System
         FCFSSystem();
         virtual ~FCFSSystem();
 
-        virtual void onProcArrival(int PID);
-        virtual void onCpuComplete(int PID);
-        virtual void onIoComplete(int PID);
-        virtual void onTimerExpiration(int PID);
+        virtual void onProcArrival(Event &event);
+        virtual void onCpuComplete(Event &event);
+        virtual void onIoComplete(Event &event);
+        virtual void onTimerExpiration(Event &event);
         virtual void dispatch();
-    protected:
-        virtual void cleanupProcesses();
 
     protected:
         queue<Process*> readyQueue;

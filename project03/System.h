@@ -14,20 +14,23 @@ class System {
         System();
         virtual ~System();
 
-        virtual void initializeProcesses(int numProcesses,
-                priority_queue<Event>& eventQueue);
-        virtual void onProcArrival(int PID) = 0;
-        virtual void onCpuComplete(int PID) = 0;
-        virtual void onIoComplete(int PID) = 0;
-        virtual void onTimerExpiration(int PID) = 0;
+        virtual void initializeProcesses(int numProcesses);
+        void simulation(int numProcesses, int maxTime);
+
+        virtual void onProcArrival(Event &event) = 0;
+        virtual void onCpuComplete(Event &event) = 0;
+        virtual void onIoComplete(Event &event) = 0;
+        virtual void onTimerExpiration(Event &event) = 0;
         virtual void dispatch() = 0;
 
-        void handleEvent(Event &e);
+        void handleEvent(Event &event);
 
     protected:
-        virtual void cleanupProcesses() = 0;
+        virtual void cleanupProcesses();
 
     protected:
+        priority_queue<Event> eventQueue;
+
         vector<Process*> processList;
         vector<Process*> IOQueue;
 
