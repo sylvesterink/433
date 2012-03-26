@@ -28,6 +28,7 @@ void System::simulation(int numProcesses, int maxTime)
     initializeProcesses(numProcesses);
 
     int currentTime = 0;
+    _maxTime = maxTime;
 
     while ( (!eventQueue.empty()) && (currentTime < maxTime) ) {
         Event nextEvent = eventQueue.top();
@@ -35,6 +36,10 @@ void System::simulation(int numProcesses, int maxTime)
         currentTime = nextEvent.getStartTime();
         handleEvent(nextEvent);
     }
+
+    reportStatistics();
+
+    cleanupProcesses();
 }
 
 void System::handleEvent(Event &event)
@@ -62,6 +67,41 @@ void System::handleEvent(Event &event)
     }
 
     //schedular.run();
+}
+
+void System::reportStatistics()
+{
+    cout << "Statistics" << endl;
+
+    int listSize = processList.size();
+    for (int i = 0; i < listSize; i++) {
+        cout << "Process " << i << ":" << endl;
+
+        cout << "arrival time: " << processList[i]->getStartTime() << endl;
+        cout << "finish time: " << processList[i]->getCompletedTime() << endl;
+        cout << "service time: " << processList[i]->getServiceTime() << endl;
+        cout << "I/O time: " << processList[i]->getIoTime() << endl;
+
+        long waitingTime = _maxTime;
+        cout << "turnaround time: ";
+        if (processList[i]->getCompletedTime() > 0) {
+            long turnaroundTime = processList[i]->getCompletedTime()
+                                - processList[i]->getStartTime();
+            cout << turnaroundTime << endl;
+            waitingTime = turnaroundTime - processList[i]->getServiceTime()
+                        - processList[i]->getIoTime();
+        }
+        else {
+            cout << "NA" << endl;
+
+            waitingTime -= processList[i]->getStartTime()
+                        - processList[i]->getServiceTime()
+                        - processList[i]->getIoTime();
+        }
+
+        cout << "waiting time: " << waitingTime << "\n";
+        cout << endl;
+    }
 }
 
 void System::cleanupProcesses()

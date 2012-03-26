@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <queue>
+#include <iostream>
 
 using namespace std;
 
@@ -23,6 +24,7 @@ class System {
         virtual void dispatch(Event &event) = 0;
 
         virtual void handleEvent(Event &event);
+        virtual void reportStatistics();
 
     protected:
         virtual void cleanupProcesses();
@@ -34,6 +36,7 @@ class System {
         //vector<Process*> IOQueue;
 
         Process* CPU;
+        int _maxTime;
 };
 
 #endif /* end of include guard: SYSTEM_H */

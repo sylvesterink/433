@@ -9,8 +9,6 @@ using namespace std;
 
 static const int MAX_RUNTIME = 300000; // 5 minutes in milliseconds
 
-void simulation(int numProcesses, System* simSystem);
-
 int main(int argc, const char *argv[])
 {
     if (argc < 2) {

@@ -14,6 +14,10 @@ Process::Process(int pID, int priority)
     _ioBurstTime = 0;
     _status = P_READY;
 
+    _completedTime = 0;
+    _serviceTime = 0;
+    _ioTime = 0;
+    _waitingTime = 0;
 }
 
 Process::~Process()
@@ -97,12 +101,12 @@ void Process::setNextCpuBurstLength()
     _nextCpuBurstLength = CPUBurstRandom(_avgCpuBurstLength);
 }
 
-void Process::setNextIoBurstTime(long minTime, long maxTime)
-{
-    //30 - 100 ms
+//void Process::setNextIoBurstTime(long minTime, long maxTime)
+//{
+    ////30 - 100 ms
 
-    //_nextioBurstTime = something
-}
+    ////_nextioBurstTime = something
+//}
 
 void Process::randomizeStartTime(long maxTime)
 {
@@ -126,3 +130,44 @@ void Process::randomizeAvgCpuBurstLength(long minTime, long maxTime)
 return (_priority > param._priority);
 }
 */
+
+long Process::getCompletedTime()
+{
+    return _completedTime;
+}
+
+long Process::getServiceTime()
+{
+    return _serviceTime;
+}
+
+long Process::getIoTime()
+{
+    return _ioTime;
+}
+
+long Process::getWaitingTime()
+{
+    return _waitingTime;
+}
+
+void Process::setCompletedTime(long completedTime)
+{
+    _completedTime = completedTime;
+}
+
+void Process::setServiceTime(long serviceTime)
+{
+    _serviceTime = serviceTime;
+}
+
+void Process::setIoTime(long ioTime)
+{
+    _ioTime = ioTime;
+}
+
+void Process::setWaitingTime(long waitingTime)
+{
+    _waitingTime = waitingTime;
+}
+

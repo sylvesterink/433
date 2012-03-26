@@ -7,31 +7,33 @@ FCFSSystem::FCFSSystem()
 
 FCFSSystem::~FCFSSystem()
 {
-    cleanupProcesses();
+
 }
 
 
 void FCFSSystem::onProcArrival(Event &event)
 {
-    cout << "Process Arrived " << event.getPID() << endl;
-
     readyQueue.push(processList[event.getPID()]);
     dispatch(event);
 }
 
 void FCFSSystem::onCpuComplete(Event &event)
 {
-    cout << "Burst Complete " << event.getPID() << endl;
-
     Process* currentProcess = CPU;
     CPU = NULL;
 
     currentProcess->setRemainingCpuDuration(
             currentProcess->getRemainingCpuDuration()
             - currentProcess->getNextCpuBurstLength() );
+
+    currentProcess->setServiceTime(currentProcess->getServiceTime()
+                        + currentProcess->getNextCpuBurstLength());
+
     if (currentProcess->getRemainingCpuDuration() < 1) {
         currentProcess->setStatus(P_TERMINATED);
         cout << "Process Terminated " << event.getPID() << endl;
+
+        currentProcess->setCompletedTime(event.getStartTime());
     }
     else {
         currentProcess->setIoBurstTime();
@@ -49,10 +51,11 @@ void FCFSSystem::onCpuComplete(Event &event)
 
 void FCFSSystem::onIoComplete(Event &event)
 {
-    cout << "IO Complete " << event.getPID() << endl;
-
     Process* nextProcess = processList[event.getPID()];
     nextProcess->setStatus(P_READY);
+
+    nextProcess->setIoTime(nextProcess->getIoTime()
+                            + nextProcess->getIoBurstTime());
     readyQueue.push(nextProcess);
     dispatch(event);
 }

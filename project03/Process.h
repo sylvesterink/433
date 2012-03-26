@@ -28,14 +28,24 @@ class Process
         int getPriority();
         int getStatus();
 
+        long getCompletedTime();
+        long getServiceTime();
+        long getIoTime();
+        long getWaitingTime();
+
         void addTotalCpuDuration(long cpuDurationIncrease);
         void setRemainingCpuDuration(long newDuration);
         void setAvgCpuBurstLength(long newAvgLength);
         void setIoBurstTime();
         void setStatus(int newStatus);
 
+        void setCompletedTime(long completedTime);
+        void setServiceTime(long serviceTime);
+        void setIoTime(long ioTime);
+        void setWaitingTime(long waitingTime);
+
         void setNextCpuBurstLength();//uses provided functions in random.cpp
-        void setNextIoBurstTime(long minTime, long maxTime);
+        //void setNextIoBurstTime(long minTime, long maxTime);
 
     private:
         int _pID;
@@ -47,6 +57,11 @@ class Process
         long _ioBurstTime;
         int _priority;
         int _status;
+
+        long _completedTime;
+        long _serviceTime;
+        long _ioTime;
+        long _waitingTime;
 
         void randomizeStartTime(long maxTime);
         void randomizeTotalCpuDuration(long minTime, long maxTime);
