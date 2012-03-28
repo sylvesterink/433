@@ -26,13 +26,8 @@ void FCFSSystem::onCpuComplete(Event &event)
             currentProcess->getRemainingCpuDuration()
             - currentProcess->getNextCpuBurstLength() );
 
-    currentProcess->setServiceTime(currentProcess->getServiceTime()
-                        + currentProcess->getNextCpuBurstLength());
-
     if (currentProcess->getRemainingCpuDuration() < 1) {
         currentProcess->setStatus(P_TERMINATED);
-        cout << "Process Terminated " << event.getPID() << endl;
-
         currentProcess->setCompletedTime(event.getStartTime());
     }
     else {
@@ -47,6 +42,7 @@ void FCFSSystem::onCpuComplete(Event &event)
 
         eventQueue.push(newIoEvent);
     }
+    dispatch(event);
 }
 
 void FCFSSystem::onIoComplete(Event &event)
@@ -62,7 +58,7 @@ void FCFSSystem::onIoComplete(Event &event)
 
 void FCFSSystem::dispatch(Event &event)
 {
-    if (CPU == NULL) {
+    if ( (CPU == NULL) && (!readyQueue.empty()) ) {
         Process* nextProcess = readyQueue.front();
         readyQueue.pop();
         CPU = nextProcess;
@@ -73,10 +69,14 @@ void FCFSSystem::dispatch(Event &event)
         if (CPU->getNextCpuBurstLength() > CPU->getRemainingCpuDuration()) {
             eventStartTime = CPU->getRemainingCpuDuration()
                               + event.getStartTime();
+            nextProcess->setServiceTime(nextProcess->getServiceTime()
+                                + nextProcess->getRemainingCpuDuration());
         }
         else {
             eventStartTime = CPU->getNextCpuBurstLength()
                               + event.getStartTime();
+            nextProcess->setServiceTime(nextProcess->getServiceTime()
+                                + nextProcess->getNextCpuBurstLength());
         }
 
         Event newCpuEvent(E_CPU_BURST_COMPLETION, eventStartTime,

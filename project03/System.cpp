@@ -74,6 +74,9 @@ void System::reportStatistics()
     cout << "Statistics" << endl;
 
     int listSize = processList.size();
+    int cpuUtilization = 0;
+    int completedJobs = 0;
+    int totalTurnaroundTime = 0;
     for (int i = 0; i < listSize; i++) {
         cout << "Process " << i << ":" << endl;
 
@@ -90,6 +93,9 @@ void System::reportStatistics()
             cout << turnaroundTime << endl;
             waitingTime = turnaroundTime - processList[i]->getServiceTime()
                         - processList[i]->getIoTime();
+
+            completedJobs++;
+            totalTurnaroundTime += turnaroundTime;
         }
         else {
             cout << "NA" << endl;
@@ -101,7 +107,19 @@ void System::reportStatistics()
 
         cout << "waiting time: " << waitingTime << "\n";
         cout << endl;
+
+        cpuUtilization += processList[i]->getServiceTime();
     }
+
+    cout << "________________________" << endl;
+    float cpuUtilizationP = ( float(cpuUtilization) / float(_maxTime) ) * 100;
+    cout << "CPU Utilization: " << cpuUtilizationP << "%" << endl;
+    float throughput = ( float(completedJobs) / float(listSize) )
+                        / ( float(_maxTime) / 1000 );
+    cout << "Throughput is " << throughput << " jobs / s" << endl;
+    float avgTurnaround = float(totalTurnaroundTime) / float(completedJobs)
+                        / ( float(_maxTime) / 1000 );
+    cout << "Average turnaround time: " << avgTurnaround << " s" << endl;
 }
 
 void System::cleanupProcesses()

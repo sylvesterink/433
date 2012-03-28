@@ -47,6 +47,8 @@ class Process
         void setNextCpuBurstLength();//uses provided functions in random.cpp
         //void setNextIoBurstTime(long minTime, long maxTime);
 
+        bool operator< (const Process &param) const;
+
     private:
         int _pID;
         long _startTime;
