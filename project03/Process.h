@@ -47,7 +47,12 @@ class Process
         void setNextCpuBurstLength();//uses provided functions in random.cpp
         //void setNextIoBurstTime(long minTime, long maxTime);
 
-        bool operator< (const Process &param) const;
+        //bool operator< (const Process &param) const;
+
+        struct CompStr {
+            bool operator()(Process* m1, Process* m2) {return m1->_remainingCpuDuration > m2->_remainingCpuDuration;}
+
+        };
 
     private:
         int _pID;
@@ -68,7 +73,7 @@ class Process
         void randomizeStartTime(long maxTime);
         void randomizeTotalCpuDuration(long minTime, long maxTime);
         void randomizeAvgCpuBurstLength(long minTime, long maxTime);
-
 };
+
 
 #endif /* end of include guard: PROCESS_H */

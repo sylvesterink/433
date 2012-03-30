@@ -15,8 +15,8 @@ class SJFSystem : public System
         virtual void dispatch(Event &event);
 
     protected:
-        //stackoverflow.com/questions/986021
-        priority_queue<Process*> readyQueue;
+        //priority_queue<Process*> readyQueue;
+        priority_queue<Process*, vector<Process*>, Process::CompStr > readyQueue;
 };
 
 #endif /* end of include guard: SJFSYSTEM_H */

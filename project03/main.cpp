@@ -6,6 +6,7 @@
 using namespace std;
 
 #include "FCFSSystem.h"
+#include "SJFSystem.h"
 
 static const int MAX_RUNTIME = 300000; // 5 minutes in milliseconds
 
@@ -28,8 +29,11 @@ int main(int argc, const char *argv[])
 
     srand( time(NULL) );
 
-    FCFSSystem simSystem;
-    simSystem.simulation(numProcesses, MAX_RUNTIME);
+    FCFSSystem simFCFSSystem;
+    simFCFSSystem.simulation(numProcesses, MAX_RUNTIME);
+
+    SJFSystem simSJFSystem;
+    simSJFSystem.simulation(numProcesses, MAX_RUNTIME);
 
     return 0;
 }

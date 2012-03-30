@@ -59,7 +59,7 @@ void SJFSystem::onIoComplete(Event &event)
 void SJFSystem::dispatch(Event &event)
 {
     if ( (CPU == NULL) && (!readyQueue.empty()) ) {
-        Process* nextProcess = readyQueue.front();
+        Process* nextProcess = readyQueue.top();
         readyQueue.pop();
         CPU = nextProcess;
 

@@ -59,11 +59,10 @@ void System::handleEvent(Event &event)
             onIoComplete(event);
             //handle_IO_completion(e)
             break;
-        //TODO: Remove this, it will be in derived function
-        //case E_TIMER_EXPIRATION:
-            //onTimerExpiration(event);
-            ////handle_Timer_expiration(e)
-            //break;
+        case E_TIMER_EXPIRATION:
+            onTimerExpiration(event);
+            //handle_Timer_expiration(e)
+            break;
     }
 
     //schedular.run();
@@ -120,6 +119,7 @@ void System::reportStatistics()
     float avgTurnaround = float(totalTurnaroundTime) / float(completedJobs)
                         / ( float(_maxTime) / 1000 );
     cout << "Average turnaround time: " << avgTurnaround << " s" << endl;
+    cout << "\n" << endl;
 }
 
 void System::cleanupProcesses()
@@ -130,4 +130,9 @@ void System::cleanupProcesses()
             processList[i] = NULL;
         }
     }
+}
+
+void System::onTimerExpiration(event)
+{
+    //Dummy Function
 }

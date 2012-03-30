@@ -171,8 +171,8 @@ void Process::setWaitingTime(long waitingTime)
     _waitingTime = waitingTime;
 }
 
-bool Process::operator<(const Process &param) const
-{
-    // Implemented using > so that priority is reversed
-    return (_remainingCpuDuration > param._remainingCpuDuration);
-}
+//bool Process::operator<(const Process &param) const
+//{
+    //// Implemented using > so that priority is reversed
+    //return (_remainingCpuDuration > param._remainingCpuDuration);
+//}
