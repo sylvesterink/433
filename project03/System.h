@@ -21,7 +21,7 @@ class System {
         virtual void onProcArrival(Event &event) = 0;
         virtual void onCpuComplete(Event &event) = 0;
         virtual void onIoComplete(Event &event) = 0;
-        virtual void onTimerExpiration(event);
+        virtual void onTimerExpiration(Event &event);
         virtual void dispatch(Event &event) = 0;
 
         virtual void handleEvent(Event &event);

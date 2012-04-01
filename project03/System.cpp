@@ -116,9 +116,16 @@ void System::reportStatistics()
     float throughput = ( float(completedJobs) / float(listSize) )
                         / ( float(_maxTime) / 1000 );
     cout << "Throughput is " << throughput << " jobs / s" << endl;
-    float avgTurnaround = float(totalTurnaroundTime) / float(completedJobs)
+
+    if (completedJobs != 0) {
+        float avgTurnaround = float(totalTurnaroundTime) / float(completedJobs)
                         / ( float(_maxTime) / 1000 );
-    cout << "Average turnaround time: " << avgTurnaround << " s" << endl;
+        cout << "Average turnaround time: " << avgTurnaround << " s" << endl;
+    }
+    else {
+        cout << "Average turnaround time: NA" << endl;
+    }
+
     cout << "\n" << endl;
 }
 
@@ -132,7 +139,7 @@ void System::cleanupProcesses()
     }
 }
 
-void System::onTimerExpiration(event)
+void System::onTimerExpiration(Event &event)
 {
     //Dummy Function
 }

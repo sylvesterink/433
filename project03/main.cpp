@@ -2,6 +2,7 @@
 #include <vector>
 #include <queue>
 #include <cstdlib>
+#include <cstring>
 
 using namespace std;
 
@@ -12,8 +13,8 @@ static const int MAX_RUNTIME = 300000; // 5 minutes in milliseconds
 
 int main(int argc, const char *argv[])
 {
-    if (argc < 2) {
-        cout << "Usage: " << argv[0] << " [NUMPROCESSES]" << endl;
+    if (argc < 3) {
+        cout << "Usage: " << argv[0] << " [NUMPROCESSES] [-FCFS | -SJF]" << endl;
         return 1;
     }
 
@@ -29,11 +30,17 @@ int main(int argc, const char *argv[])
 
     srand( time(NULL) );
 
-    FCFSSystem simFCFSSystem;
-    simFCFSSystem.simulation(numProcesses, MAX_RUNTIME);
+    for (int i = 2; i < argc; i++) {
+        if ( strcmp(argv[i], "-FCFS") == 0 ) {
+            FCFSSystem simFCFSSystem;
+            simFCFSSystem.simulation(numProcesses, MAX_RUNTIME);
+        }
 
-    SJFSystem simSJFSystem;
-    simSJFSystem.simulation(numProcesses, MAX_RUNTIME);
+        if ( strcmp(argv[i], "-SJF") == 0 ) {
+            SJFSystem simSJFSystem;
+            simSJFSystem.simulation(numProcesses, MAX_RUNTIME);
+        }
+    }
 
     return 0;
 }
