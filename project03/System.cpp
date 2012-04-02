@@ -1,15 +1,34 @@
+/**
+ * @file System.cpp
+ * @brief The implementation of the system abstract object.
+ *        All other simulation systems are derived from this for simplicity
+ * @author Cavan Crawford & Brandon Kasa
+ * @version 1.0
+ * @date 2012-04-02
+ */
 #include "System.h"
 
+/**
+ * @brief Constructor
+ */
 System::System()
 {
     CPU = NULL;
 }
 
+/**
+ * @brief Destructor
+ */
 System::~System()
 {
 
 }
 
+/**
+ * @brief Initializes the process list and creates an arrival event for each
+ *        added process
+ * @param numProcesses Number of processes to simulate
+ */
 void System::initializeProcesses(int numProcesses)
 {
     for (int i = 0; i < numProcesses; i++) {
@@ -22,14 +41,21 @@ void System::initializeProcesses(int numProcesses)
 
 }
 
-//TODO: Move into System object
+/**
+ * @brief Runs the simulation of the process handling each event in the event
+ *        queue
+ * @param numProcesses Number of processes to simulate
+ * @param maxTime Maximum time for simulation to run
+ */
 void System::simulation(int numProcesses, int maxTime)
 {
+    // Create processes and add initial events
     initializeProcesses(numProcesses);
 
     int currentTime = 0;
     _maxTime = maxTime;
 
+    // While there are events and time isn't complete, handle the events.
     while ( (!eventQueue.empty()) && (currentTime < maxTime) ) {
         Event nextEvent = eventQueue.top();
         eventQueue.pop();
@@ -37,11 +63,18 @@ void System::simulation(int numProcesses, int maxTime)
         handleEvent(nextEvent);
     }
 
+    // Print the final statistics
     reportStatistics();
 
+    // Clean up processes
     cleanupProcesses();
 }
 
+/**
+ * @brief Depending on the event type, call the appropriate event handler
+ *        The event handlers are implemented in the derived class
+ * @param event Event to be handled
+ */
 void System::handleEvent(Event &event)
 {
     int eventType = event.getType();
@@ -49,29 +82,27 @@ void System::handleEvent(Event &event)
     switch (eventType) {
         case E_PROCESS_ARRIVAL:
             onProcArrival(event);
-            //handle_proc_arrival(e)
             break;
         case E_CPU_BURST_COMPLETION:
             onCpuComplete(event);
-            //handle_CPU_completion(e)
             break;
         case E_IO_COMPLETION:
             onIoComplete(event);
-            //handle_IO_completion(e)
             break;
         case E_TIMER_EXPIRATION:
             onTimerExpiration(event);
-            //handle_Timer_expiration(e)
             break;
     }
-
-    //schedular.run();
 }
 
+/**
+ * @brief Output the statistics of the simulation
+ */
 void System::reportStatistics()
 {
     cout << "Statistics" << endl;
 
+    // Output the statistics for individual processes
     int listSize = processList.size();
     int cpuUtilization = 0;
     int completedJobs = 0;
@@ -110,6 +141,7 @@ void System::reportStatistics()
         cpuUtilization += processList[i]->getServiceTime();
     }
 
+    // Output statistics of overall system simulation
     cout << "________________________" << endl;
     float cpuUtilizationP = ( float(cpuUtilization) / float(_maxTime) ) * 100;
     cout << "CPU Utilization: " << cpuUtilizationP << "%" << endl;
@@ -129,6 +161,9 @@ void System::reportStatistics()
     cout << "\n" << endl;
 }
 
+/**
+ * @brief Deallocate memory for processes
+ */
 void System::cleanupProcesses()
 {
     for (unsigned int i = 0; i < processList.size(); i++) {
@@ -139,6 +174,14 @@ void System::cleanupProcesses()
     }
 }
 
+/**
+ * @brief A dummy implementation of the timer expiration event
+ *        This is implemented here so that it isn't necessary to derive in all
+ *        child classes, as only RR uses it currently.
+ *        However, it needs to exist since the event handler calls it.
+ *        This can be fixed by modifying the event handler in the derived class
+ * @param event Event to handle
+ */
 void System::onTimerExpiration(Event &event)
 {
     //Dummy Function

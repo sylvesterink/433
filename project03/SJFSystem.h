@@ -3,6 +3,10 @@
 
 #include "System.h"
 
+/**
+ * @brief The declaration of the SJF system.  Implemented on top of the
+ *        system base, with the ready queue as a priority queue
+ */
 class SJFSystem : public System
 {
     public:
@@ -15,7 +19,6 @@ class SJFSystem : public System
         virtual void dispatch(Event &event);
 
     protected:
-        //priority_queue<Process*> readyQueue;
         priority_queue<Process*, vector<Process*>, Process::CompStr > readyQueue;
 };
 

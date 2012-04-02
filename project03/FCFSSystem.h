@@ -3,6 +3,10 @@
 
 #include "System.h"
 
+/**
+ * @brief The declaration of the FCFS system.  Implemented on top of the
+ *        system base
+ */
 class FCFSSystem : public System
 {
     public:

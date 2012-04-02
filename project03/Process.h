@@ -5,6 +5,9 @@
 #include <ctime>
 #include "random.h"
 
+/**
+ * @brief Constant values used to define the process type
+ */
 enum {
     P_READY,
     P_RUNNING,
@@ -12,6 +15,9 @@ enum {
     P_TERMINATED
 };
 
+/**
+ * @brief The process object, represents a system process
+ */
 class Process
 {
     public:
@@ -45,11 +51,12 @@ class Process
         void setWaitingTime(long waitingTime);
 
         void setNextCpuBurstLength();//uses provided functions in random.cpp
-	void setRemainingCpuBurstLength(long newDuration);
+        void setRemainingCpuBurstLength(long newDuration);
         //void setNextIoBurstTime(long minTime, long maxTime);
 
-        //bool operator< (const Process &param) const;
 
+        // Used for comparison in priority queue, since the queue stores
+        // processes as pointers
         struct CompStr {
             bool operator()(Process* m1, Process* m2) {return m1->_remainingCpuDuration > m2->_remainingCpuDuration;}
 

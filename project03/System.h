@@ -10,6 +10,9 @@ using namespace std;
 #include "Event.h"
 #include "Process.h"
 
+/**
+ * @brief The abstract base class that all systems are derived from
+ */
 class System {
     public:
         System();
@@ -34,7 +37,6 @@ class System {
         priority_queue<Event> eventQueue;
 
         vector<Process*> processList;
-        //vector<Process*> IOQueue;
 
         Process* CPU;
         int _maxTime;
