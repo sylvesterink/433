@@ -45,6 +45,7 @@ class Process
         void setWaitingTime(long waitingTime);
 
         void setNextCpuBurstLength();//uses provided functions in random.cpp
+	void setRemainingCpuBurstLength(long newDuration);
         //void setNextIoBurstTime(long minTime, long maxTime);
 
         //bool operator< (const Process &param) const;

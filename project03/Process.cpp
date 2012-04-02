@@ -101,6 +101,10 @@ void Process::setNextCpuBurstLength()
     _nextCpuBurstLength = CPUBurstRandom(_avgCpuBurstLength);
 }
 
+void Process::setRemainingCpuBurstLength(long newDuration)
+{
+    _nextCpuBurstLength -= newDuration;
+}
 //void Process::setNextIoBurstTime(long minTime, long maxTime)
 //{
     ////30 - 100 ms
