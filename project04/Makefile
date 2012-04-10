@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS = -c -g -Wall -pedantic
 #CFLAGS = -c -s -O2 -Wall -pedantic
-LIB = -lm -lpthread
-LDFLAGS = -L.
+LIB = -lm
+LDFLAGS = -lpthread -L.
 SOURCES = main.cpp Buffer.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 EXECUTABLE = pcsolver.exe
