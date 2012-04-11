@@ -24,7 +24,7 @@ bool Buffer::insertItem(int newItem)
 
 bool Buffer::removeItem(int &removedItem)
 {
-    if ( !_buffer.empty() ) {
+    if ( !isEmpty() ) {
         removedItem = _buffer.front();
         _buffer.pop();
 
@@ -41,4 +41,9 @@ bool Buffer::isFull()
     }
 
     return false;
+}
+
+bool Buffer::isEmpty()
+{
+    return _buffer.empty();
 }

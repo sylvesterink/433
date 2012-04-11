@@ -15,6 +15,7 @@ class Buffer
         virtual bool insertItem(int newItem);
         virtual bool removeItem(int &removedItem);
         virtual bool isFull();
+        virtual bool isEmpty();
 
     private:
         queue<int> _buffer;

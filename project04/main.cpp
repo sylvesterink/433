@@ -9,6 +9,9 @@ using namespace std;
 void *producer(void *param);
 void *consumer(void *param);
 
+pthread_mutex_t bufferMutex = PTHREAD_MUTEX_INITIALIZER;
+Buffer sharedBuffer;
+
 int main(int argc, const char *argv[])
 {
     vector<pthread_t> producerTid;
@@ -36,7 +39,7 @@ int main(int argc, const char *argv[])
     }
 
     // Initialize Buffer
-    Buffer test;
+    srand( time(NULL) );
 
     // Create Producer Threads
     for (int i = 0; i < numProducers; i++) {
@@ -53,7 +56,7 @@ int main(int argc, const char *argv[])
     }
 
     // Sleep
-    sleep(3);
+    sleep(runtime);
 
     // Delete threads
     //while ( !producerTid.empty() ) {
@@ -80,10 +83,13 @@ void *producer(void *param)
     sleepTime.tv_sec = 0;
 
     while (true) {
-        sleepTime.tv_nsec = 500000000; // One Second
+        // Random number between 100 milliseconds and 1 second
+        sleepTime.tv_nsec = rand() % 999999999 + 100000000;
         nanosleep(&sleepTime, (struct timespec *)NULL);
+        pthread_mutex_lock(&bufferMutex);
         cout << "OMG PRODUCE!!!\n";
         cout << flush;
+        pthread_mutex_unlock(&bufferMutex);
     }
 
     return returnValue;
@@ -97,10 +103,17 @@ void *consumer(void *param)
     sleepTime.tv_sec = 0;
 
     while (true) {
-        sleepTime.tv_nsec = 100000000;
+        // Random number between 100 milliseconds and 1 second
+        sleepTime.tv_nsec = rand() % 999999999 + 100000000;
         nanosleep(&sleepTime, (struct timespec *)NULL);
-        cout << "I consume.\n";
-        cout << flush;
+
+        //TODO:right here
+        if (!sharedBuffer.isEmpty()) {
+            pthread_mutex_lock(&bufferMutex);
+            cout << "I consume.\n";
+            cout << flush;
+            pthread_mutex_unlock(&bufferMutex);
+        }
     }
 
     return returnValue;
