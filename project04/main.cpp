@@ -86,8 +86,23 @@ void *producer(void *param)
         // Random number between 100 milliseconds and 1 second
         sleepTime.tv_nsec = rand() % 999999999 + 100000000;
         nanosleep(&sleepTime, (struct timespec *)NULL);
+
+        int newItem = rand() % 99;
+
+        sleepTime.tv_nsec = rand() % 100000000;
+        while ( sharedBuffer.isFull() ) {
+            nanosleep(&sleepTime, (struct timespec *)NULL);
+        } //wait
+
         pthread_mutex_lock(&bufferMutex);
-        cout << "OMG PRODUCE!!!\n";
+        if ( !sharedBuffer.insertItem(newItem) ) {
+            cout << "Error: Failed to insert into shared buffer.\n";
+        }
+        else {
+            cout << "+ " << newItem << " inserted by producer. ";
+            sharedBuffer.displayBuffer();
+        }
+
         cout << flush;
         pthread_mutex_unlock(&bufferMutex);
     }
@@ -107,13 +122,24 @@ void *consumer(void *param)
         sleepTime.tv_nsec = rand() % 999999999 + 100000000;
         nanosleep(&sleepTime, (struct timespec *)NULL);
 
-        //TODO:right here
-        if (!sharedBuffer.isEmpty()) {
-            pthread_mutex_lock(&bufferMutex);
-            cout << "I consume.\n";
-            cout << flush;
-            pthread_mutex_unlock(&bufferMutex);
+        int removedItem = 0;
+
+        sleepTime.tv_nsec = rand() % 100000000;
+        while (sharedBuffer.isEmpty()) {
+            nanosleep(&sleepTime, (struct timespec *)NULL);
+        } //wait
+
+        pthread_mutex_lock(&bufferMutex);
+        if ( !sharedBuffer.removeItem(removedItem) ) {
+            cout << "Error: Failed to remove from shared buffer.\n";
         }
+        else {
+            cout << "- " << removedItem << " removed by consumer. ";
+            sharedBuffer.displayBuffer();
+        }
+
+        cout << flush;
+        pthread_mutex_unlock(&bufferMutex);
     }
 
     return returnValue;

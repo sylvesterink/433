@@ -47,3 +47,25 @@ bool Buffer::isEmpty()
 {
     return _buffer.empty();
 }
+
+// By George this method is ugly.
+void Buffer::displayBuffer()
+{
+    queue<int> tempBuffer;
+
+    cout << "[ ";
+    //for (unsigned int i = 0; i < _buffer.size(); i++) {
+    while (!_buffer.empty()) {
+        tempBuffer.push(_buffer.front());
+        _buffer.pop();
+        cout << tempBuffer.back() << " ";
+    }
+
+    while (!tempBuffer.empty()) {
+        _buffer.push(tempBuffer.front());
+        tempBuffer.pop();
+    }
+
+    cout << " ]\n";
+    cout << flush;
+}
