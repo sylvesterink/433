@@ -5,12 +5,10 @@
 #include <queue>
 using namespace std;
 
-static const int BUFFER_SIZE = 5;
-
 class Buffer
 {
     public:
-        Buffer(); //int bufferSize);
+        Buffer(int maxSize = 5); //int bufferSize);
         virtual ~Buffer();
 
         virtual bool insertItem(int newItem);

@@ -10,7 +10,9 @@ void *producer(void *param);
 void *consumer(void *param);
 
 pthread_mutex_t bufferMutex = PTHREAD_MUTEX_INITIALIZER;
-Buffer sharedBuffer;
+
+static const int BUFFER_SIZE = 5;
+Buffer sharedBuffer(BUFFER_SIZE);
 
 int main(int argc, const char *argv[])
 {
@@ -90,23 +92,24 @@ void *producer(void *param)
         int newItem = rand() % 99;
 
         sleepTime.tv_nsec = rand() % 100000000;
-        while ( sharedBuffer.isFull() ) {
-            nanosleep(&sleepTime, (struct timespec *)NULL);
+        bool waitingToProduce = true;
+        while ( waitingToProduce ) {
+            pthread_mutex_lock(&bufferMutex);
+            if ( !sharedBuffer.isFull() ) {
+                if ( sharedBuffer.insertItem(newItem) ) {
+                    cout << "+ " << newItem << " inserted by producer. ";
+                    sharedBuffer.displayBuffer();
+                }
+                else {
+                    cout << "Error: Failed to insert into shared buffer.\n";
+                }
+
+                cout << flush;
+                waitingToProduce = false;
+            }
+            pthread_mutex_unlock(&bufferMutex);
         } //wait
-
-        pthread_mutex_lock(&bufferMutex);
-        if ( !sharedBuffer.insertItem(newItem) ) {
-            cout << "Error: Failed to insert into shared buffer.\n";
-        }
-        else {
-            cout << "+ " << newItem << " inserted by producer. ";
-            sharedBuffer.displayBuffer();
-        }
-
-        cout << flush;
-        pthread_mutex_unlock(&bufferMutex);
     }
-
     return returnValue;
 }
 
@@ -124,23 +127,23 @@ void *consumer(void *param)
 
         int removedItem = 0;
 
-        sleepTime.tv_nsec = rand() % 100000000;
-        while (sharedBuffer.isEmpty()) {
-            nanosleep(&sleepTime, (struct timespec *)NULL);
+        bool waitingToConsume = true;
+        while ( waitingToConsume ) {
+            pthread_mutex_lock(&bufferMutex);
+            if ( !sharedBuffer.isEmpty() ) {
+                if ( sharedBuffer.removeItem(removedItem) ) {
+                    cout << "- " << removedItem << " removed by consumer. ";
+                    sharedBuffer.displayBuffer();
+                }
+                else {
+                    cout << "Error: Failed to remove from shared buffer.\n";
+                }
+
+                cout << flush;
+                waitingToConsume = false;
+            }
+            pthread_mutex_unlock(&bufferMutex);
         } //wait
-
-        pthread_mutex_lock(&bufferMutex);
-        if ( !sharedBuffer.removeItem(removedItem) ) {
-            cout << "Error: Failed to remove from shared buffer.\n";
-        }
-        else {
-            cout << "- " << removedItem << " removed by consumer. ";
-            sharedBuffer.displayBuffer();
-        }
-
-        cout << flush;
-        pthread_mutex_unlock(&bufferMutex);
     }
-
     return returnValue;
 }

@@ -1,7 +1,7 @@
 #include "Buffer.h"
 
-Buffer::Buffer(): //int bufferSize):
-    _maxSize(BUFFER_SIZE)
+Buffer::Buffer(int maxSize): //int bufferSize):
+    _maxSize(maxSize)
 {
 
 }
