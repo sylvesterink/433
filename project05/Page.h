@@ -8,7 +8,9 @@ public:
     ~Page();
 
 private:
-    /* data */
+    bool _valid;
+    bool _dirty;
+    int _memLocation;
 };
 
 

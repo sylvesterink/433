@@ -3,6 +3,9 @@
 
 using namespace std;
 
+//static const int LOGICAL_MEM_SIZE = 134217728;
+static const int LOGICAL_MEM_SIZE = 27;
+
 int main(int argc, const char *argv[])
 {
     // Make sure commandline arguments are valid
@@ -28,6 +31,9 @@ int main(int argc, const char *argv[])
     if ( (memSize < 2) || (memSize > 31) ) {
         cout << "Error: Physical memory size must from 2-31." << endl;
     }
+
+    cout << "Page Table Simulator" << endl;
+    cout << "Cavan Crawford and Brandon Kasa\n" << endl;
 
     return 0;
 }

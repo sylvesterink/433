@@ -8,19 +8,21 @@ using namespace std;
 class Simulator
 {
 public:
-    Simulator(int pageSize, int memSize);
+    Simulator(int pageSize, int memSize, int logMemSize);
     ~Simulator();
 
     void run() = 0;
 
 private:
-    vector<Page> pageTable;
+    vector<Page> _pageTable;
+    int _maxPages;
+    int _pageSize;
 
     // Final statistics
-    int memReferences;
-    int pageFaults;
-    int numFlushes;
-    int totalTime;
+    int _memReferences;
+    int _pageFaults;
+    int _numFlushes;
+    int _totalTime;
 };
 
 
