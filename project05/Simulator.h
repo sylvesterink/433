@@ -1,17 +1,21 @@
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
+#include <iostream>
 #include <vector>
+#include <string>
+#include <sstream>
 
+#include "Page.h"
 using namespace std;
 
 class Simulator
 {
 public:
     Simulator(int pageSize, int memSize, int logMemSize);
-    ~Simulator();
+    virtual ~Simulator();
 
-    void run() = 0;
+    virtual void run(string &fileData) = 0;
 
 private:
     vector<Page> _pageTable;
