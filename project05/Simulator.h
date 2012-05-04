@@ -11,22 +11,25 @@ using namespace std;
 
 class Simulator
 {
-public:
-    Simulator(int pageSize, int memSize, int logMemSize);
-    virtual ~Simulator();
+    public:
+        Simulator(int pageSize, int memSize, int logMemSize);
+        virtual ~Simulator();
 
-    virtual void run(string &fileData) = 0;
+        virtual void run(string &fileData) = 0;
 
-private:
-    vector<Page> _pageTable;
-    int _maxPages;
-    int _pageSize;
+    protected:
+        bool isWrite(int memReference);
 
-    // Final statistics
-    int _memReferences;
-    int _pageFaults;
-    int _numFlushes;
-    int _totalTime;
+    protected:
+        int _maxPages;
+        int _pageSize;
+        unsigned int _bitMask;
+
+        // Final statistics
+        int _memReferences;
+        int _pageFaults;
+        int _numFlushes;
+        int _totalTime;
 };
 
 

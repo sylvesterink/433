@@ -3,6 +3,7 @@
 #include <cstdlib> // For atoi()
 
 #include "FIFOsim.h"
+#include "RandSim.h"
 
 using namespace std;
 
@@ -28,13 +29,17 @@ int main(int argc, const char *argv[])
     //Check for invalid parameters
     if ( (policyType < 0) || (policyType > 2) ) {
         cout << "Error: Invalid policy type." << endl;
+        return -1;
     }
-    if ( (pageSize < 8) || (pageSize > 13) ) {
-        cout << "Error: Page size must be from 8-13." << endl;
-    }
+    //TODO: Uncomment this
+    //if ( (pageSize < 8) || (pageSize > 13) ) {
+        //cout << "Error: Page size must be from 8-13." << endl;
+        //return -1;
+    //}
     //if ( (memSize < 2) || ((memSize & (memSize - 1)) != 0) ) {
     if ( (memSize < 2) || (memSize > 31) ) {
         cout << "Error: Physical memory size must from 2-31." << endl;
+        return -1;
     }
 
     cout << "Page Table Simulator" << endl;
@@ -42,7 +47,7 @@ int main(int argc, const char *argv[])
 
     string fileData;
     if (readFile("references.txt", fileData)) {
-        FIFOsim test(pageSize, memSize, LOGICAL_MEM_SIZE);
+        RandSim test(pageSize, memSize, LOGICAL_MEM_SIZE);
         test.run(fileData);
     }
     else {
