@@ -3,14 +3,19 @@
 
 class Page
 {
-public:
-    Page();
-    ~Page();
+    public:
+        Page();
+        ~Page();
 
-private:
-    bool _valid;
-    bool _dirty;
-    int _memLocation;
+        bool isValid();
+        void setDirtyBit(bool setValue);
+        bool getDirtyBit();
+        void setValidBit(bool setValue);
+
+    private:
+        bool _valid;
+        bool _dirty;
+        int _memLocation;
 };
 
 

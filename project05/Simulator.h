@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <sys/time.h>
 
 #include "Page.h"
 using namespace std;
@@ -15,21 +16,26 @@ class Simulator
         Simulator(int pageSize, int memSize, int logMemSize);
         virtual ~Simulator();
 
-        virtual void run(string &fileData) = 0;
+        virtual void run(string &fileData);
+        virtual void replacePage(int pageIndex, bool isWrite) = 0;
 
     protected:
         bool isWrite(int memReference);
 
     protected:
-        int _maxPages;
+        int _numPages;
+        int _usedPages;
+        int _maxUsedPages;
         int _pageSize;
         unsigned int _bitMask;
 
+        vector<Page> _pageTable;
+
         // Final statistics
-        int _memReferences;
+        int _numMemReferences;
         int _pageFaults;
         int _numFlushes;
-        int _totalTime;
+        //int _totalTime;
 };
 
 

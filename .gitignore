@@ -26,6 +26,7 @@
 *.sql
 *.sqlite
 tags
+reference*
 
 # OS generated files #
 ######################

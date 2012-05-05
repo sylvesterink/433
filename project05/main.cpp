@@ -32,11 +32,10 @@ int main(int argc, const char *argv[])
         return -1;
     }
     //TODO: Uncomment this
-    //if ( (pageSize < 8) || (pageSize > 13) ) {
-        //cout << "Error: Page size must be from 8-13." << endl;
-        //return -1;
-    //}
-    //if ( (memSize < 2) || ((memSize & (memSize - 1)) != 0) ) {
+    if ( (pageSize < 8) || (pageSize > 13) ) {
+        cout << "Error: Page size must be from 8-13." << endl;
+        return -1;
+    }
     if ( (memSize < 2) || (memSize > 31) ) {
         cout << "Error: Physical memory size must from 2-31." << endl;
         return -1;

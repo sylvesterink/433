@@ -1,6 +1,7 @@
 #ifndef RANDSIM_H
 #define RANDSIM_H
 
+#include <cstdlib>
 #include "Simulator.h"
 
 class RandSim : public Simulator
@@ -9,9 +10,8 @@ class RandSim : public Simulator
         RandSim(int pageSize, int memSize, int logMemSize);
         virtual ~RandSim();
 
-        virtual void run(string &fileData);
+        virtual void replacePage(int pageIndex, bool isWrite);
     private:
-        vector<Page> _pageTable;
 };
 
 
