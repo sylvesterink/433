@@ -2,6 +2,9 @@
 #define RANDSIM_H
 
 #include <cstdlib>
+#include <vector>
+
+using namespace std;
 #include "Simulator.h"
 
 class RandSim : public Simulator
@@ -11,7 +14,10 @@ class RandSim : public Simulator
         virtual ~RandSim();
 
         virtual void replacePage(int pageIndex, bool isWrite);
+        virtual void insertPage(int pageIndex, bool writeBit);
+
     private:
+        vector<int> _validPages;
 };
 
 

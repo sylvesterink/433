@@ -18,6 +18,8 @@ class Simulator
 
         virtual void run(string &fileData);
         virtual void replacePage(int pageIndex, bool isWrite) = 0;
+        virtual void accessPage(int pageIndex, bool writeBit);
+        virtual void insertPage(int pageIndex, bool writeBit);
 
     protected:
         bool isWrite(int memReference);

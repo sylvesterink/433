@@ -14,25 +14,26 @@ RandSim::~RandSim()
 
 void RandSim::replacePage(int pageIndex, bool isWrite)
 {
-    int repLocation = rand() % _maxUsedPages + 1;
+    int repIndex = rand() % _validPages.size();
+    int repLocation = _validPages[repIndex];
 
     _pageFaults++;
 
-    int tableSize = _pageTable.size();
-    for (int i = 0; i < tableSize; i++) {
-        if (_pageTable[i].isValid()) {
-            repLocation--;
-            if (repLocation == 0) {
-                if (_pageTable[i].getDirtyBit()) {
-                    _numFlushes++;
-                }
-                _pageTable[i].setValidBit(false);
-                _pageTable[i].setDirtyBit(false);
-                break;
-            }
-        }
+    //cout << "Replacing " << repLocation << " with " << pageIndex << endl;
+    if (_pageTable[repLocation].getDirtyBit()) {
+        _numFlushes++;
     }
+    _pageTable[repLocation].setValidBit(false);
+    _pageTable[repLocation].setDirtyBit(false);
 
     _pageTable[pageIndex].setDirtyBit(isWrite);
     _pageTable[pageIndex].setValidBit(true);
+    
+    _validPages[repIndex] = pageIndex;
+}
+
+void RandSim::insertPage(int pageIndex, bool writeBit)
+{
+    Simulator::insertPage(pageIndex, writeBit);
+    _validPages.push_back(pageIndex);
 }

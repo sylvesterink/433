@@ -11,12 +11,28 @@ FIFOsim::~FIFOsim()
 
 }
 
-void FIFOsim::run(string &fileData)
+void FIFOsim::replacePage(int pageIndex, bool isWrite)
 {
-    int testInt;
+    int repLocation = pageOrder.front();
+    pageOrder.pop();
 
-    stringstream converter(fileData);
-    while ( !(converter >> testInt).fail() ) {
-        cout << testInt << endl;
+    _pageFaults++;
+
+    //cout << "Replacing " << repLocation << " with " << pageIndex << endl;
+    if (_pageTable[repLocation].getDirtyBit()) {
+        _numFlushes++;
     }
+    _pageTable[repLocation].setValidBit(false);
+    _pageTable[repLocation].setDirtyBit(false);
+
+    _pageTable[pageIndex].setDirtyBit(isWrite);
+    _pageTable[pageIndex].setValidBit(true);
+
+    pageOrder.push(pageIndex);
+}
+
+void FIFOsim::insertPage(int pageIndex, bool writeBit)
+{
+    Simulator::insertPage(pageIndex, writeBit);
+    pageOrder.push(pageIndex);
 }

@@ -9,6 +9,13 @@ using namespace std;
 
 //static const int LOGICAL_MEM_SIZE = 134217728;
 static const int LOGICAL_MEM_SIZE = 27;
+//static const int LOGICAL_MEM_SIZE = 5;
+
+enum {
+    P_RAND,
+    P_FIFO,
+    P_LRU
+};
 
 bool readFile(const char *fileName, string &fileData);
 
@@ -17,7 +24,7 @@ int main(int argc, const char *argv[])
     // Make sure commandline arguments are valid
     if (argc < 4) {
         cout << "Usage: " << argv[0]
-            << " [POLICY TYPE] [PAGE SIZE (8-13)] [PHYSICAL MEM SIZE]" << endl;
+            << " [POLICY TYPE (0=Rand, 1=Fifo, 2=LRU] [PAGE SIZE (8-13)] [PHYSICAL MEM SIZE (2-31)]" << endl;
         return -1;
     }
 
@@ -46,8 +53,18 @@ int main(int argc, const char *argv[])
 
     string fileData;
     if (readFile("references.txt", fileData)) {
-        RandSim test(pageSize, memSize, LOGICAL_MEM_SIZE);
-        test.run(fileData);
+        if (policyType == P_RAND) {
+            RandSim rand(pageSize, memSize, LOGICAL_MEM_SIZE);
+            rand.run(fileData);
+        }
+        else if (policyType == P_FIFO) {
+            FIFOsim fifo(pageSize, memSize, LOGICAL_MEM_SIZE);
+            fifo.run(fileData);
+        }
+        else if (policyType == P_LRU) {
+            //LRUsim lru(pageSize, memSize, LOGICAL_MEM_SIZE);
+            //lru.run(fileData);
+        }
     }
     else {
         cout << "Error: File \"references.txt\" missing" << endl;

@@ -57,24 +57,18 @@ void Simulator::run(string &fileData)
     while ( !(converter >> memReference).fail() ) {
         pageIndex = (memReference & _bitMask) >> _pageSize;
         _numMemReferences++;
+        bool writeBit = isWrite(memReference);
 
         //cout << memReference << ", " << pageIndex << endl;
         if (_pageTable[pageIndex].isValid()) {
             //cout << "Valid" << endl;
-            if( isWrite(memReference) ) {
-                _pageTable[pageIndex].setDirtyBit(true);
-            }
+            accessPage(pageIndex, writeBit);
         }
         else if ( _usedPages < _maxUsedPages ) {
             //cout << "Writing at " << pageIndex << endl;
-            if( isWrite(memReference) ) {
-                _pageTable[pageIndex].setDirtyBit(true);
-            }
-            _pageTable[pageIndex].setValidBit(true);
-            _usedPages++;
+            insertPage(pageIndex, writeBit);
         }
         else {
-            bool writeBit = isWrite(memReference);
             replacePage(pageIndex, writeBit);
         }
     }
@@ -92,4 +86,20 @@ void Simulator::run(string &fileData)
 
     // Calculate and display the duration
     cout << "Total Simulation Time: " << finalTime - initialTime << " seconds." << endl;
+}
+
+void Simulator::accessPage(int pageIndex, bool writeBit)
+{
+    if( writeBit ) {
+        _pageTable[pageIndex].setDirtyBit(true);
+    }
+}
+
+void Simulator::insertPage(int pageIndex, bool writeBit)
+{
+    if( writeBit ) {
+        _pageTable[pageIndex].setDirtyBit(true);
+    }
+    _pageTable[pageIndex].setValidBit(true);
+    _usedPages++;
 }
