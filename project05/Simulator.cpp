@@ -24,7 +24,7 @@ Simulator::Simulator(int pageSize, int memSize, int logMemSize) :
     cout << "Pow Number of Pages " << _numPages << endl;
     cout << "Max usable pages " << _maxUsedPages << endl;
     cout << "Pow Page Size " << _pageSize << endl;
-    cout << "Bitmask " << hex << _bitMask << dec << endl;
+    cout << "Bitmask " << hex << _bitMask << dec << "\n" << endl;
 }
 
 Simulator::~Simulator()
@@ -50,6 +50,7 @@ void Simulator::run(string &fileData)
     timeval endTime;
     timeval startTime;
 
+    cout << "Running Simulation..." << flush;
     // Get the start time of the loop
     gettimeofday(&startTime, NULL);
 
@@ -80,6 +81,7 @@ void Simulator::run(string &fileData)
     double initialTime = startTime.tv_sec+(startTime.tv_usec/1000000.0);
     double finalTime = endTime.tv_sec+(endTime.tv_usec/1000000.0);
 
+    cout << "Simulation Complete\n" << endl;
     cout << "Total Memory References: " << _numMemReferences << endl;
     cout << "Total Page Faults: " << _pageFaults << endl;
     cout << "Total Flushes: " << _numFlushes << endl;

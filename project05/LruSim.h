@@ -1,6 +1,10 @@
 #ifndef LRUSIM_H
 #define LRUSIM_H
 
+#include <list>
+#include <algorithm>
+using namespace std;
+
 #include "Simulator.h"
 
 class LruSim : public Simulator
@@ -10,10 +14,11 @@ class LruSim : public Simulator
         virtual ~LruSim();
 
         virtual void replacePage(int pageIndex, bool isWrite);
+        virtual void accessPage(int pageIndex, bool writeBit);
         virtual void insertPage(int pageIndex, bool writeBit);
 
     private:
-        /* data */
+        list<int> _useOrder;
 };
 
 

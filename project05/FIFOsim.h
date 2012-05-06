@@ -17,7 +17,7 @@ class FIFOsim : public Simulator
         virtual void insertPage(int pageIndex, bool writeBit);
 
     private:
-        queue<int> pageOrder;
+        queue<int> _pageOrder;
 };
 
 

@@ -4,6 +4,7 @@
 
 #include "FIFOsim.h"
 #include "RandSim.h"
+#include "LruSim.h"
 
 using namespace std;
 
@@ -54,16 +55,19 @@ int main(int argc, const char *argv[])
     string fileData;
     if (readFile("references.txt", fileData)) {
         if (policyType == P_RAND) {
+            cout << "Using Random replacement policy." << endl;
             RandSim rand(pageSize, memSize, LOGICAL_MEM_SIZE);
             rand.run(fileData);
         }
         else if (policyType == P_FIFO) {
+            cout << "Using FIFO replacement policy." << endl;
             FIFOsim fifo(pageSize, memSize, LOGICAL_MEM_SIZE);
             fifo.run(fileData);
         }
         else if (policyType == P_LRU) {
-            //LRUsim lru(pageSize, memSize, LOGICAL_MEM_SIZE);
-            //lru.run(fileData);
+            cout << "Using LRU replacement policy." << endl;
+            LruSim lru(pageSize, memSize, LOGICAL_MEM_SIZE);
+            lru.run(fileData);
         }
     }
     else {
@@ -84,6 +88,7 @@ bool readFile(const char *fileName, string &fileData)
     ifstream fin;
     string input;
 
+    cout << "Loading File..." << flush;
     fin.open(fileName);
 
     // Read the file line by line into the string
@@ -98,6 +103,7 @@ bool readFile(const char *fileName, string &fileData)
     }
 
     fin.close();
+    cout << "File Loaded\n" << endl;
 
     return true;
 }

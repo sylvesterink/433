@@ -13,8 +13,8 @@ FIFOsim::~FIFOsim()
 
 void FIFOsim::replacePage(int pageIndex, bool isWrite)
 {
-    int repLocation = pageOrder.front();
-    pageOrder.pop();
+    int repLocation = _pageOrder.front();
+    _pageOrder.pop();
 
     _pageFaults++;
 
@@ -28,11 +28,11 @@ void FIFOsim::replacePage(int pageIndex, bool isWrite)
     _pageTable[pageIndex].setDirtyBit(isWrite);
     _pageTable[pageIndex].setValidBit(true);
 
-    pageOrder.push(pageIndex);
+    _pageOrder.push(pageIndex);
 }
 
 void FIFOsim::insertPage(int pageIndex, bool writeBit)
 {
     Simulator::insertPage(pageIndex, writeBit);
-    pageOrder.push(pageIndex);
+    _pageOrder.push(pageIndex);
 }
