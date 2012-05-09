@@ -1,3 +1,14 @@
+/**
+ * @file main.cpp
+ * @brief Simulates a paging system with different page replacement algorithms.
+ *        Currently implements Random, FIFO, and LRU replacement.
+ * @author Cavan Crawford and Brandon Kasa
+ * @version 1.0
+ * @date 2012-05-08
+ * @course CS433
+ * @assignment 5
+ * @compilation make
+ */
 #include <iostream>
 #include <fstream>
 #include <cstdlib> // For atoi()
@@ -8,18 +19,26 @@
 
 using namespace std;
 
-//static const int LOGICAL_MEM_SIZE = 134217728;
+// Logical memory size is constant in this case
 static const int LOGICAL_MEM_SIZE = 27;
-//static const int LOGICAL_MEM_SIZE = 5;
 
+// The different types of replacement algorithms
 enum {
     P_RAND,
     P_FIFO,
     P_LRU
 };
 
+// Function declarations
 bool readFile(const char *fileName, string &fileData);
 
+/**
+ * @brief Main function. Gets policy type, page size, and physical memory size.
+ *        Then runs the appropriate simulation.
+ * @param argc Number of arguments passed.
+ * @param argv[] Runtime arguments.
+ * @return Success or failure of program.
+ */
 int main(int argc, const char *argv[])
 {
     // Make sure commandline arguments are valid
@@ -40,8 +59,8 @@ int main(int argc, const char *argv[])
         return -1;
     }
     //TODO: Uncomment this
-    if ( (pageSize < 8) || (pageSize > 13) ) {
-        cout << "Error: Page size must be from 8-13." << endl;
+    if ( (pageSize < 2) || (pageSize > 13) ) {
+        cout << "Error: Page size must be from 2-13." << endl;
         return -1;
     }
     if ( (memSize < 2) || (memSize > 31) ) {
@@ -52,6 +71,7 @@ int main(int argc, const char *argv[])
     cout << "Page Table Simulator" << endl;
     cout << "Cavan Crawford and Brandon Kasa\n" << endl;
 
+    // Open the data file and run the appropriate simulation on it
     string fileData;
     if (readFile("references.txt", fileData)) {
         if (policyType == P_RAND) {
@@ -72,6 +92,7 @@ int main(int argc, const char *argv[])
     }
     else {
         cout << "Error: File \"references.txt\" missing" << endl;
+        return -1;
     }
 
     return 0;
