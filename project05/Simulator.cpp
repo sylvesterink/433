@@ -24,7 +24,7 @@ Simulator::Simulator(int pageSize, int memSize, int logMemSize) :
     cout << "Pow Number of Pages " << _numPages << endl;
     cout << "Max usable pages " << _maxUsedPages << endl;
     cout << "Pow Page Size " << _pageSize << endl;
-    cout << "Bitmask " << hex << _bitMask << dec << "\n" << endl;
+    //cout << "Bitmask " << hex << _bitMask << dec << "\n" << endl;
 }
 
 Simulator::~Simulator()

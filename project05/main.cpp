@@ -63,8 +63,12 @@ int main(int argc, const char *argv[])
         cout << "Error: Page size must be from 2-13." << endl;
         return -1;
     }
-    if ( (memSize < 2) || (memSize > 31) ) {
-        cout << "Error: Physical memory size must from 2-31." << endl;
+    if ( (memSize < 8) || (memSize > 31) ) {
+        cout << "Error: Physical memory size must from 8-31." << endl;
+        return -1;
+    }
+    if ( memSize < pageSize ) {
+        cout << "Error: Physical memory must be larger than page size." << endl;
         return -1;
     }
 
