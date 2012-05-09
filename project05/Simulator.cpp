@@ -1,5 +1,19 @@
+/**
+ * @file Simulator.cpp
+ * @brief Implementation of the base simulation object
+ * @author Cavan Crawford and Brandon Kasa
+ * @version 1.0
+ * @date 2012-05-08
+ */
 #include "Simulator.h"
 
+/**
+ * @brief Constructor.  Sets basic values according to the arguments and
+ *        initializes the page table.  Outputs the settings for the simulation.
+ * @param pageSize The size of each page entry
+ * @param memSize The size of the physical memory
+ * @param logMemSize The size of the logical memory
+ */
 Simulator::Simulator(int pageSize, int memSize, int logMemSize) :
     _numPages(logMemSize - pageSize), // all values are powers of 2, including numpages
     _usedPages(0),
@@ -27,11 +41,19 @@ Simulator::Simulator(int pageSize, int memSize, int logMemSize) :
     //cout << "Bitmask " << hex << _bitMask << dec << "\n" << endl;
 }
 
+/**
+ * @brief Destructor.
+ */
 Simulator::~Simulator()
 {
 
 }
 
+/**
+ * @brief Checks if the memory reference is to be written
+ * @param memReference The memory reference to check
+ * @return Returns whether this is a write value or not
+ */
 bool Simulator::isWrite(int memReference)
 {
     if ( memReference % 2 == 1 ) {
@@ -41,6 +63,12 @@ bool Simulator::isWrite(int memReference)
     return false;
 }
 
+/**
+ * @brief Runs the simulation by reading the memory reference and choosing
+ *        whether to write it to the pagetable, update the access values,
+ *        or replace another page
+ * @param fileData The list of memory references
+ */
 void Simulator::run(string &fileData)
 {
     int memReference;
@@ -54,6 +82,8 @@ void Simulator::run(string &fileData)
     // Get the start time of the loop
     gettimeofday(&startTime, NULL);
 
+    // Read each memory reference and determine whether to write, access,
+    // or replace
     stringstream converter(fileData);
     while ( !(converter >> memReference).fail() ) {
         pageIndex = (memReference & _bitMask) >> _pageSize;
@@ -81,6 +111,7 @@ void Simulator::run(string &fileData)
     double initialTime = startTime.tv_sec+(startTime.tv_usec/1000000.0);
     double finalTime = endTime.tv_sec+(endTime.tv_usec/1000000.0);
 
+    // Output the simulation results
     cout << "Simulation Complete\n" << endl;
     cout << "Total Memory References: " << _numMemReferences << endl;
     cout << "Total Page Faults: " << _pageFaults << endl;
@@ -90,6 +121,11 @@ void Simulator::run(string &fileData)
     cout << "Total Simulation Time: " << finalTime - initialTime << " seconds." << endl;
 }
 
+/**
+ * @brief Update this reference in the pagetable
+ * @param pageIndex The index of the page to update
+ * @param writeBit Whether this reference contains a write value
+ */
 void Simulator::accessPage(int pageIndex, bool writeBit)
 {
     if( writeBit ) {
@@ -97,6 +133,11 @@ void Simulator::accessPage(int pageIndex, bool writeBit)
     }
 }
 
+/**
+ * @brief Insert a new page in the table
+ * @param pageIndex The index of the page to update
+ * @param writeBit Whether this reference contains a write value
+ */
 void Simulator::insertPage(int pageIndex, bool writeBit)
 {
     if( writeBit ) {

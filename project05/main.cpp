@@ -58,7 +58,6 @@ int main(int argc, const char *argv[])
         cout << "Error: Invalid policy type." << endl;
         return -1;
     }
-    //TODO: Uncomment this
     if ( (pageSize < 2) || (pageSize > 13) ) {
         cout << "Error: Page size must be from 2-13." << endl;
         return -1;

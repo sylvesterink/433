@@ -1,3 +1,10 @@
+/**
+ * @file Simulator.h
+ * @brief Declarations for the Simulator object
+ * @author Cavan Crawford and Brandon Kasa
+ * @version 1.0
+ * @date 2012-05-08
+ */
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
@@ -10,6 +17,11 @@
 #include "Page.h"
 using namespace std;
 
+/**
+ * @brief Abstract class for various simulation types.  Implements the basic
+ *        functions, not including replacement, which is determined by deriving
+ *        classes.
+ */
 class Simulator
 {
     public:
@@ -29,7 +41,7 @@ class Simulator
         int _usedPages;
         int _maxUsedPages;
         int _pageSize;
-        unsigned int _bitMask;
+        unsigned int _bitMask; // Used in calculating page locations
 
         vector<Page> _pageTable;
 
@@ -37,7 +49,6 @@ class Simulator
         int _numMemReferences;
         int _pageFaults;
         int _numFlushes;
-        //int _totalTime;
 };
 
 
